@@ -2,6 +2,7 @@ from .tube_storage import TubeStorage
 from ..data_structure import Coordinates
 import numpy as np
 from ..controls import chembot
+from ..computer_vision import predict
 
 
 class Reactor(TubeStorage):
