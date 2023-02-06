@@ -14,16 +14,17 @@ class BaseStorage:
         self.x_step = x_step
         self.z_step = z_step
 
-    def step(self, z: int = 0, x: int = 0) -> Coordinates:  # +right, -left
-        if x >= 0:
+    def step(self, z: int = 0, x: int = 0) -> Coordinates:
+        if x >= 0:                                                      # +right, -left
             new_x = self.anchor.x + self.x_step * x
         else:
             new_x = self.anchor.x - self.x_step * x
-        if z >= 0:
+        if z >= 0:                                                      # +forward, -backward
             new_z = self.anchor.z + self.z_step * z
         else:
             new_z = self.anchor.z - self.z_step * z
         return Coordinates(z=new_z, x=new_x)
+
 
     def num2position(self, n) -> Coordinates:
         if max(self.slots) > n > 0:

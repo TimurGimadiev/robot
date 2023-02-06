@@ -50,7 +50,7 @@ class Stepper:
         #print(r)
     
     def set_position(self, position: int, speed: int = 1500, mode: int = 0,
-                     soft_start_time: int = 0, blocking_processes=True):
+                     soft_start_time: int = 1, blocking_processes=True):
         if self._validate_position(position):
             self.wait()
             pos = LifeBotStepperPos(c_ubyte(self.id), position, speed, mode, soft_start_time)

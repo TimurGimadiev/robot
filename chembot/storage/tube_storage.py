@@ -1,5 +1,5 @@
 from .basic_storage import BaseStorage
-from ..data_structures import Coordinates
+from ..data_structure import Coordinates
 import numpy as np
 from ..controls.chembot import chembot
 from time import sleep
@@ -17,6 +17,7 @@ class TubeStorage(BaseStorage):
         self.__pipet = None
         self.before_cap = 10000
         self.lowest = 13300
+        self.before_put_tube = 11000
         self.left_pipet_get_hight = 38000  # 36000 отбор проб из вортекса
         self.left_pipet_put_hight = 26500
 
@@ -49,7 +50,7 @@ class TubeStorage(BaseStorage):
         chembot.motors.cap_rotator.close(time=8000)
         chembot.steppers.op.set_position(1000)
         sleep(2)
-        chembot.steppers.op.set_position(11000)
+        chembot.steppers.op.set_position(self.before_put_tube)
         chembot.motors.cap_rotator.close(time=500)
         chembot.motors.cap_remover.eject()
         chembot.steppers.op.set_position(8000)
@@ -80,12 +81,12 @@ class TubeStorage(BaseStorage):
         # chembot.devices.motors.cap_rotator.close(time=8000)
         # chembot.devices.steppers.op.set_position(1000)
         # sleep(2)
-        chembot.steppers.op.set_position(11000, speed=2500)
+        chembot.steppers.op.set_position(self.before_put_tube, speed=2500)
         chembot.motors.cap_rotator.close(time=5000)
         chembot.steppers.op.set_position(self.lowest)  # 12000)
         sleep(0.5)
         chembot.motors.cap_remover.eject()
-        chembot.steppers.op.set_position(10000)
+        chembot.steppers.op.set_position(self.before_cap)
         chembot.steppers.op.set_position(0, speed=2500)
         chembot.motors.cap_remover.pins_up()
 

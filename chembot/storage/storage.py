@@ -1,4 +1,4 @@
-from data_structures import Coordinates
+from ..data_structure import Coordinates
 from itertools import chain
 from chembot import chembot
 from time import sleep

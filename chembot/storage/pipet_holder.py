@@ -13,7 +13,7 @@ class PipetHolder(BaseStorage):
         super().__init__(z_len, x_len, anchor, x_step, z_step)
         self.pipet_in_operation = None
 
-    def read(self, file="./inputs/pipets.json"):
+    def read(self, file):
         with open(file) as f:
             for i in load(f):
                 self.fill_slot(i["idx"], BluePipet())  # there is only one pipet type now
