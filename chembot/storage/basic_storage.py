@@ -6,13 +6,15 @@ from ..data_structure import Coordinates
 
 class BaseStorage:
 
-    def __init__(self, z_len, x_len, anchor, x_step, z_step):
+    def __init__(self, chembot, z_len, x_len, anchor, x_step, z_step, fake: bool = False):
         self.__slots = dict(enumerate(np.zeros((z_len, x_len)).flatten(), 1))
         self.z_len = z_len
         self.x_len = x_len
         self.anchor = anchor
         self.x_step = x_step
         self.z_step = z_step
+        self.chembot = chembot
+        self.fake = fake
 
     def step(self, z: int = 0, x: int = 0) -> Coordinates:
         if x >= 0:                                                      # +right, -left

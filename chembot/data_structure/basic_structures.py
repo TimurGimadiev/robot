@@ -1,5 +1,6 @@
-from ctypes import c_ubyte, c_uint, c_ushort, c_int, c_ulonglong, Structure
+from ctypes import c_ubyte, c_uint, c_ushort, c_int, c_ulonglong, Structure, CDLL
 from collections import namedtuple
+from pathlib import Path
 
 
 class LifeBotStepperPos(Structure):
@@ -37,6 +38,17 @@ bot_response = {
     254: "TransactError",
     255: "Disconnect",
 }
+
+
+class BaseDevice:
+
+    def __init__(self, path=Path("chembot/controls/libchembot.so").absolute().name,
+                 fake: bool = False):
+        self.fake = fake
+        if not fake:
+            self.bot_lib = CDLL(path)
+        else:
+            self.bot_lib = None
 
 Coordinates = namedtuple("Coordinates", ["x", "z"])
 

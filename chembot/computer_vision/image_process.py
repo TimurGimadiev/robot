@@ -3,7 +3,9 @@ from os import system
 from time import time
 from loguru import logger
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', 'best.pt')
+model = torch.hub.load('ultralytics/yolov5', 'custom', 'chembot/computer_vision/best.pt')
+
+
 def predict(device=3, skip=3):
     command = f"fswebcam -d /dev/video{device} -r 1920x1080 -S {skip} --no-banner " \
               f"/tmp/robot_image_for_analysis.jpg"

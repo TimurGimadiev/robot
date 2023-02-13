@@ -1,5 +1,6 @@
-from ctypes import c_ubyte, c_uint, c_ushort, c_int, c_ulonglong, Structure
+from ctypes import c_ubyte, c_uint, c_ushort, c_int, c_ulonglong, Structure, CDLL
 from collections import namedtuple
+from pathlib import Path
 
 
 class LifeBotStepperPos(Structure):
@@ -37,5 +38,6 @@ bot_response = {
     254: "TransactError",
     255: "Disconnect",
 }
+
 
 Coordinates = namedtuple("Coordinates", ["x", "z"])
