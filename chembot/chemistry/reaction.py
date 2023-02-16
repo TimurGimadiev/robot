@@ -8,7 +8,8 @@ class Reaction(ReactionContainer):
     def __init__(self,
                  reactants: Iterable[Molecule] = (),
                  products: Iterable[Molecule] = (),
-                 reagents: Iterable[Molecule] = (), meta: Optional[Dict] = None,
+                 reagents: Iterable[Molecule] = (),
+                 meta: Optional[Dict] = None,
                  name: Optional[str] = None):
         super().__init__(reactants, products, reagents, meta, name)
         self.__reaction_params = None
@@ -67,6 +68,9 @@ class Reaction(ReactionContainer):
     def _fill_group_mols(molecules, mapping, target_mols):
         for num, molecule in enumerate(molecules, start=1):
             molecule.mols = mapping[num] * target_mols
+
+    def _solutions(self):
+        pass
 
 
 

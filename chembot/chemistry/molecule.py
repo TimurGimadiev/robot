@@ -3,13 +3,25 @@ from typing import Optional
 
 
 class Molecule(MoleculeContainer):
-    __slots__ = ("__mols", "__density", "__target_mol")
+    __slots__ = ("__mols", "__density", "__target_mol", "__concentration")
 
     def __init__(self):
         super().__init__()
         self.__mols = None
         self.__target_mol = None
         self.__density = None
+        self.__concentration = None
+        self.__solvent = None
+
+    @property
+    def solvent(self):
+        return self.__solvent
+
+    @solvent.setter
+    def solvent(self, sol: "Molecule"):
+        if not isinstance(sol, Molecule):
+            raise TypeError('Should be Molecule')
+        self.__solvent = sol
 
     @property
     def mols(self) -> Optional[float]:
@@ -42,7 +54,10 @@ class Molecule(MoleculeContainer):
 
     @volume.setter
     def volume(self, volume):
-        self.__mols = volume * 1000 * self.density / self.molecular_mass
+        #if self.density:
+            self.__mols = volume * 1000 * self.density / self.molecular_mass
+        #else:
+        #    self.__density = self.pure_mass / volume
 
 
     @property
@@ -60,6 +75,23 @@ class Molecule(MoleculeContainer):
             #     raise TypeError('target_mols key should present in dictionary target_mol,'
             #                     'value should be float (amount of Mols)')
         self.__target_mol = target_mol
+
+    @property
+    def concentration(self) -> Optional[float]:
+        return self.__concentration
+
+    @concentration.setter
+    def concentration(self, concentration):  # molar concentration c = M/L
+        # solid molecules do not processed
+        self.__concentration = concentration
+
+    def calculate_per_volume(self, volume):
+        if self.concentration:
+            self.mols = self.concentration * volume
+            self.solvent.volume = volume - self.volume
+        elif self.mols:
+            self.solvent.volume = volume - self.volume
+            self.concentration = self.mols / volume
 
 
 

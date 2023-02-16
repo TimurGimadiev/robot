@@ -4,5 +4,6 @@ from ..controls import chembot
 class SolutionPrepaire:
 
     def __init__(self):
+        pass
 
 
