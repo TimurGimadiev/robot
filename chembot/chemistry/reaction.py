@@ -4,6 +4,7 @@ from typing import Optional, Iterable, Dict
 
 
 class Reaction(ReactionContainer):
+    __slots__ = ("__reaction_params", "__reaction_mols", "__target")
 
     def __init__(self,
                  reactants: Iterable[Molecule] = (),

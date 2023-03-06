@@ -24,3 +24,8 @@ class Solution2C:
             self.solvent.volume = volume - self.molecule.volume
 
 
+class SolutionFromSolid:
+    def __init__(self, molecule: Molecule, solvent: Molecule, concentration, volume):
+        self.molecule = molecule
+        self.solvent = solvent
+        self.__concentration = concentration

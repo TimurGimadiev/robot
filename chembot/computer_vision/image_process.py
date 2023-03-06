@@ -16,7 +16,7 @@ def predict(device=3, skip=3):
             err = system(command)
             if not err:
                 break
-            if time() - start > 15 :
+            if time() - start > 15:
                 raise ValueError("timeout waiting camera")
     except ValueError:
         return None
