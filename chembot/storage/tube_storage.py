@@ -4,6 +4,10 @@ import numpy as np
 from time import sleep
 from .pipet_types import BluePipet
 from typing import Optional, List
+from ..chemistry import smiles, Molecule
+from loguru import logger
+from ..custom_types import Slots, State
+
 
 
 class TubeStorage(BaseStorage):
@@ -129,6 +133,69 @@ class TubeStorage(BaseStorage):
         pipet.occupied_vol = 0
         self.chembot.steppers.y_l.set_position(0, speed=2500)
         self.cap_close(idx)
+
+    def slot_from_mol_data(self, idx, data):
+        # data = {"smiles": "CC(C)=O", "volume": 0.001, "moles": None, "state": "liquid", "density":
+        #     0.784,
+        #  "concentration": None,
+        #  "solvent": {"smiles": None}}
+        if isinstance(data, str):
+            if data.upper() in [x.name for x in Slots]:
+                self.fill_slot(idx, Slots[data.upper()])
+                return
+            else:
+                raise ("not acceptable keyword")
+        logger.info(f"mol = {data['smiles']}")
+        mol = smiles(data["smiles"], substance=True)
+        mol.canonicalize()
+        mol.state = data["state"]
+        if density := data.get("density"):
+            logger.info(f"density = {density}")
+            mol.density = density
+            #logger.info(f"volume = {mol.density}")
+        if pure_mass := data.get("mass"):
+            mol.pure_mass = pure_mass
+        if volume := data.get("volume"):
+            if mol.state is State.LIQUID and not mol.concentration:
+                if volume and mol.density:
+                    mol.mols = volume * mol.density / mol.molecular_mass * 1000
+                elif pure_mass and mol.density:
+                    mol.mols = mol.pure_mass / mol.molecular_mass * 1000
+            elif mol.state is State.LIQUID and mol.concentration and volume:
+                mol.mols = volume * mol.concentration
+            elif mol.state is State.LIQUID and mol.pure_mass:
+                mol.mols = mol.pure_mass / mol.molecular_mass * 1000
+            else:
+                raise ValueError("mols or volume and density or pure mass sjould be provided")
+
+        # if mols := data.get("moles"):
+        #     mol.mols = mols
+        # else:
+        #     if mol.state is State.LIQUID and not mol.concentration:
+        #         if mol.volume and mol.density:
+        #             mol.mols = mol.volume / mol.density
+        #         elif mol.pure_mass and mol.density:
+        #             mol.moles = mol.pure_mass / mol.molecular_mass / 1000
+        #     elif mol.state is State.LIQUID and mol.concentration and mol.volume:
+        #         mol.mols = mol.volume * mol.concentration
+        #     elif mol.state is State.LIQUID and mol.pure_mass:
+        #         mol.mols = mol.pure_mass / mol.molecular_mass / 1000
+        #     else:
+        #         raise ValueError("mols or volume and density or pure mass sjould be provided")
+        self.fill_slot(idx, mol)
+
+    def fill_from_config(self, data):
+        for k, v in data.items():
+            if v:
+                logger.info(f"{v}")
+                self.slot_from_mol_data(k, v)
+
+    def search_molecule(self, mol):
+        slots = []
+        for k, v in self.slots.items():
+            if isinstance(v, Molecule) and v == mol:
+                slots.append(k)
+        return slots
 
     # def tube_available_moves(self, idx) -> Optional[List]:
     #     position = self.num2position(idx)

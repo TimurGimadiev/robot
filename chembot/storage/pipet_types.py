@@ -1,4 +1,4 @@
-
+# Description of pipets, their volume and mapping to steps of motor
 class BluePipet:
 
     def __init__(self):

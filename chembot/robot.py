@@ -5,6 +5,8 @@ from .controls.extras import Pump, WS1Cyl, WS2Cyl, VacuumTap, UVLamp, Mixer
 from .controls.heater import Thermometer, Thermostat, Heater
 from .controls.chembot import Steppers, Motors, Extras
 from .storage import Storages
+from loguru import logger
+from config import *
 
 
 class Chembot:
@@ -78,5 +80,23 @@ class Chembot:
         self.set_coordinates(Coordinates(x=2786, z=4400))
         self.steppers.y_l.set_position(0, speed=3000)
 
-# chembot = Chembot()
-# chembot_fake = Chembot(fake=True)
+    def fill_from_config(self, tube_storage= tube_storage_config, reactor=reactor_config,
+                         pipet_storage = pipet_storage_config):
+        self.storages.tube_storage.fill_from_config(tube_storage)
+        self.storages.pipet_holder.fill_from_config(pipet_storage)
+        self.storages.reactor.fill_from_config(reactor)
+
+
+# class Robot:
+#     def __init__(self, fake=False):
+#         if not fake:
+#             self = Chembot()
+#         else:
+#             self = Chembot(fake=True)
+try:
+    chembot = Chembot()
+except:
+    logger.info("control libraries are not available fake chemot initialized")
+    chembot = Chembot(fake=True)
+
+chembot.fill_from_config()

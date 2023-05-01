@@ -2,12 +2,15 @@ import numpy as np
 from ..chemistry import Molecule
 from typing import Union
 from ..data_structure import Coordinates
+from ..custom_types import Slots
 
 
 class BaseStorage:
 
     def __init__(self, chembot, z_len, x_len, anchor, x_step, z_step, fake: bool = False):
         self.__slots = dict(enumerate(np.zeros((z_len, x_len)).flatten(), 1))
+        for k in self.__slots:
+            self.__slots[k] = Slots.EMPTY
         self.z_len = z_len
         self.x_len = x_len
         self.anchor = anchor
@@ -49,25 +52,47 @@ class BaseStorage:
         return self.__slots
 
     @property
-    def next_free_slot(self):
+    def next_avilable_slot(self):
         for k, v in self.__slots.items():
-            if not v:
+            if v is Slots.AVAILABLE:
                 return k
 
     def flush_slot(self, slot_id):
         self.__slots[slot_id] = .0
 
     @property
-    def next_occupied_slot(self):
+    def avilable_slots(self):
+        free = []
         for k, v in self.slots.items():
-            if v:
-                return k
+            if v is Slots.AVAILABLE:
+                free.append(k)
+        return free
+
+    @property
+    def occupied_slots(self):
+        occupied = []
+        for k, v in self.slots.items():
+            if v not in [Slots.EMPTY, Slots.AVAILABLE]:
+                occupied.append(k)
+        return occupied
 
     @property
     def next_occupied_slot_reversed(self):
         for row in np.array_split(np.array(list(self.slots)), self.z_len):
             for value in row[::-1]:
-                return value
+                if self.slots[value] is not Slots.EMPTY:
+                    return value
+                else:
+                    continue
+        raise ValueError("run out of objects")
+
+    @property
+    def empty_slots(self):
+        empty = []
+        for k, v in self.slots.items():
+            if v is Slots.EMPTY:
+                empty.append(k)
+        return empty
 
 
 

@@ -56,30 +56,30 @@ class Extras():
         self.thermostat = Heater(**kwargs)
 
 
-class Chembot:
-
-    def __init__(self, **kwargs) -> None:
-        self.steppers = Steppers(**kwargs)
-        self.motors = Motors(**kwargs)
-        self.extras = Extras(**kwargs)
-
-    def init_all(self):
-        self.motors.init_all()
-        self.steppers.init_all()
-
-    @property
-    def coord_initialized(self):
-        return not self.steppers.x._stepper_state and not self.steppers.z._stepper_state
-
-    def set_coordinates(self, coord: Coordinates, speed: int = 1500, x_first = True):
-        if self.coord_initialized:
-            if x_first:
-                self.steppers.x.set_position(coord.x, speed=speed)
-                self.steppers.z.set_position(coord.z, speed=speed)
-            else:
-                self.steppers.z.set_position(coord.z, speed=speed)
-                self.steppers.x.set_position(coord.x, speed=speed)
-    
+# class Chembot:
+#
+#     def __init__(self, **kwargs) -> None:
+#         self.steppers = Steppers(**kwargs)
+#         self.motors = Motors(**kwargs)
+#         self.extras = Extras(**kwargs)
+#
+#     def init_all(self):
+#         self.motors.init_all()
+#         self.steppers.init_all()
+#
+#     @property
+#     def coord_initialized(self):
+#         return not self.steppers.x._stepper_state and not self.steppers.z._stepper_state
+#
+#     def set_coordinates(self, coord: Coordinates, speed: int = 1500, x_first = True):
+#         if self.coord_initialized:
+#             if x_first:
+#                 self.steppers.x.set_position(coord.x, speed=speed)
+#                 self.steppers.z.set_position(coord.z, speed=speed)
+#             else:
+#                 self.steppers.z.set_position(coord.z, speed=speed)
+#                 self.steppers.x.set_position(coord.x, speed=speed)
+#
     # def get_eppendorf(self, tube_storage: TubeStorage, epp_position: tuple):
     #     coord = Coordinates(tube_storage.anchor.x - \
     #         (len(tube_storage.holders[0]) - epp_position[0]) * tube_storage.x_step, \
