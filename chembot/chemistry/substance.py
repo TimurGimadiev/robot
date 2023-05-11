@@ -185,15 +185,16 @@ class Substance(Molecule):
 
         # create new compound
         # pure compound returned
-        if not target_solvent_vol:
-            new.volume = target_substance_vol
-        new.volume = target_substance_vol
-        new.solvent = solvent
+        # if not target_solvent_vol:
+        #     new.volume = target_substance_vol
+        # new.volume = target_substance_vol
+        # new.solvent = solvent
         #new.concentration = concentration
         return {"target_solution_vol": Volume(target_solution_vol),
                 "target_substance_vol": Volume(target_substance_vol),
                 "target_solvent_vol": Volume(target_solvent_vol),
-                "new_substance": new}
+                # "new_substance": new
+                }
 
 
 

@@ -11,7 +11,20 @@ class PipetHolder(BaseStorage):
                  z_step=128):
         super().__init__(chembot=chembot, z_len=z_len, x_len=x_len, anchor=anchor, x_step=x_step,
                          z_step=z_step)
-        self.pipet_in_operation = None
+        self.__pipet_in_operation = None
+
+    @property
+    def pipet_in_operation(self):
+        if pipet := self.__pipet_in_operation:
+            return pipet
+        else:
+            self.next_pipet()
+            return
+
+    @pipet_in_operation.setter
+    def pipet_in_operation(self, value):
+        if isinstance(value, BluePipet):
+            self.__pipet_in_operation = value
 
     def read(self, file):
         with open(file) as f:
@@ -25,6 +38,7 @@ class PipetHolder(BaseStorage):
         self.chembot.steppers.y_l.set_position(0, speed=3000)
         self.pipet_in_operation = self.get_slot(idx)
         self.flush_slot(idx)
+        return self.pipet_in_operation
 
     # def eject_pipet(self):
     #     self.chembot.set_coordinates(Coordinates(x=2786, z=4460))
