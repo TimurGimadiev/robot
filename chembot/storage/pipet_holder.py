@@ -32,6 +32,7 @@ class PipetHolder(BaseStorage):
                 self.fill_slot(i["idx"], BluePipet())  # there is only one pipet type now
 
     def get_pipet(self, idx: int):
+        self.chembot.eject_pipet()
         self.chembot.set_coordinates(self.num2position(idx))
         self.chembot.steppers.y_l.set_position(36500, speed=3000)
         self.chembot.steppers.y_l.set_position(40000)

@@ -32,7 +32,7 @@ class BaseStorage:
 
 
     def num2position(self, n) -> Coordinates:
-        if max(self.slots) > n > 0:
+        if max(self.slots) >= n > 0:
             n -= 1
             z, x = n // self.x_len, n % self.x_len
             return self.step(z, x)
@@ -58,7 +58,7 @@ class BaseStorage:
                 return k
 
     def flush_slot(self, slot_id):
-        self.__slots[slot_id] = .0
+        self.__slots[slot_id] = Slots.EMPTY
 
     @property
     def avilable_slots(self):
