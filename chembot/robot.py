@@ -80,8 +80,8 @@ class Chembot:
         self.set_coordinates(Coordinates(x=2786, z=4600))
         self.steppers.y_l.set_position(0, speed=3000)
 
-    def fill_from_config(self, tube_storage= tube_storage_config, reactor=reactor_config,
-                         pipet_storage = pipet_storage_config):
+    def fill_from_config(self, tube_storage=tube_storage_config, reactor=reactor_config,
+                         pipet_storage=pipet_storage_config, big_storage=big_storage_config):
         self.storages.tube_storage.fill_from_config(tube_storage)
         self.storages.pipet_holder.fill_from_config(pipet_storage)
         self.storages.reactor.fill_from_config(reactor)

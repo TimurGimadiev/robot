@@ -50,9 +50,8 @@ class PipetHolder(BaseStorage):
 
     def next_pipet(self):
         idx = self.next_occupied_slot_reversed
-        self.get_pipet(idx)
-        return idx
-
+        pipet = self.get_pipet(idx)
+        return idx, pipet
 
     def fill_from_config(self, data):
         for k,v in data.items():

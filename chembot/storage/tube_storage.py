@@ -103,8 +103,8 @@ class TubeStorage(BaseStorage):
         self.chembot.set_coordinates(self.pipet_by_id(idx))
         self.chembot.steppers.y_l.set_position(self.left_pipet_get_hight, speed=2500)
         self.chembot.steppers.l_pipet.set_position(pipet.volume_to_steps(vol))
-        self.pipet = pipet
-        self.pipet.occupied_vol = vol
+        #self.pipet = pipet
+        pipet.occupied_vol = vol
         self.chembot.steppers.y_l.set_position(0, speed=2500)
         self.cap_close(idx)
 
@@ -115,8 +115,20 @@ class TubeStorage(BaseStorage):
         self.chembot.set_coordinates(self.pipet_by_id(idx))
         self.chembot.steppers.y_l.set_position(self.left_pipet_put_hight, speed=2500)
         vol = pipet.occupied_vol - vol
-        self.chembot.steppers.l_pipet.set_position(vol, speed=1000)
+        pipet.occupied_vol = vol
+        self.chembot.steppers.l_pipet.set_position(pipet.volume_to_steps(vol), speed=1000)
         self.left_pipet_vol = vol
+        self.chembot.steppers.y_l.set_position(0, speed=2500)
+        self.cap_close(idx)
+
+    def left_pipet_put_till_end(self, idx, vol=0.5, pipet: BluePipet = BluePipet()):
+        if vol > pipet.occupied_vol:
+            raise ValueError("Not enough volume in left pipet")
+        self.cap_open(idx)
+        self.chembot.set_coordinates(self.pipet_by_id(idx))
+        self.chembot.steppers.y_l.set_position(self.left_pipet_put_hight, speed=2500)
+        self.chembot.steppers.l_pipet.set_position(0, speed=1500)
+        pipet.occupied_vol = 0
         self.chembot.steppers.y_l.set_position(0, speed=2500)
         self.cap_close(idx)
 
@@ -127,9 +139,9 @@ class TubeStorage(BaseStorage):
         self.chembot.set_coordinates(self.pipet_by_id(idx))
         self.chembot.steppers.y_l.set_position(self.left_pipet_get_hight, speed=2500)
         self.chembot.steppers.l_pipet.set_position(0, speed=1500)
-        self.chembot.steppers.l_pipet.set_position(vol, speed=1500)
+        self.chembot.steppers.l_pipet.set_position(pipet.volume_to_steps(vol), speed=1500)
         self.chembot.steppers.l_pipet.set_position(0, speed=1500)
-        self.chembot.steppers.l_pipet.set_position(vol, speed=1500)
+        self.chembot.steppers.l_pipet.set_position(pipet.volume_to_steps(vol), speed=1500)
         self.chembot.steppers.l_pipet.set_position(0, speed=1500)
         pipet.occupied_vol = 0
         self.chembot.steppers.y_l.set_position(0, speed=2500)
