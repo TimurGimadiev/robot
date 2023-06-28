@@ -74,10 +74,10 @@ class Chembot:
         self.set_coordinates(Coordinates(x=20, z=5300))
 
     def eject_pipet(self):
-        self.set_coordinates(Coordinates(x=2786, z=4460))
+        self.set_coordinates(Coordinates(x=2786, z=4660))
         self.steppers.y_l.set_position(36500, speed=3000)
         self.steppers.y_l.set_position(40650)
-        self.set_coordinates(Coordinates(x=2786, z=4400))
+        self.set_coordinates(Coordinates(x=2786, z=4600))
         self.steppers.y_l.set_position(0, speed=3000)
 
     def fill_from_config(self, tube_storage= tube_storage_config, reactor=reactor_config,

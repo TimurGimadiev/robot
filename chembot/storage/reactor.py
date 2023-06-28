@@ -17,19 +17,24 @@ class Reactor(TubeStorage):
         self.z_correction = None
         self.x_scale = 3.8
         self.z_scale = 6.5
-        self.anchor_correct()
+        #self.anchor_correct()
         self.before_cap = 10000
-        self.lowest = 12700
+        self.lowest = 12800
         self.left_pipet_vol = 0
         self.left_pipet_get_hight = 36000  # 36000 отбор проб из вортекса
+        self.camera_before_photo = Coordinates(3600, 3800)
+        self.camera_coord = Coordinates(4100, 4550)
+        self.camera_to_opener_correction = Coordinates(-300, 640)
+        self.anchor_status = False
 
     def anchor_correct(self):
         if not self.fake:
-            self.chembot.set_coordinates(Coordinates(3600, 3800))
-            self.chembot.set_coordinates(Coordinates(4100, 4300))
-            res = visual_control()
-            self.x_correction, self.z_correction = sorted(res, key=lambda x: abs(x[0]) + abs(x[1]))[0]
-            x = 4100 + self.x_correction / self.x_scale - 360
-            z = 4300 + self.z_correction / self.z_scale + 750
+            self.chembot.set_coordinates(self.camera_before_photo)
+            self.chembot.set_coordinates(self.camera_coord)
+            self.x_correction, self.z_correction = visual_control()
+            #self.x_correction, self.z_correction = sorted(res, key=lambda x: abs(x[0]) + abs(x[1]))[0]
+            x = self.camera_coord.x + self.x_correction / self.x_scale + self.camera_to_opener_correction.x
+            z = self.camera_coord.z + self.z_correction / self.z_scale + self.camera_to_opener_correction.z
             self.anchor = Coordinates(x=int(x), z=int(z))
+            self.anchor_status = True
 

@@ -74,7 +74,7 @@ class XAxis(Stepper):
 class ZAxis(Stepper):
     def __init__(self, **kwargs):
         super().__init__(id=1, **kwargs)
-        self.limit = 5800
+        self.limit = 6080
 
 
 class YAxisL(Stepper):

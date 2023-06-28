@@ -12,7 +12,7 @@ from ..custom_types import Slots, State
 
 class TubeStorage(BaseStorage):
 
-    def __init__(self, chembot, z_len=12, x_len=8, anchor=Coordinates(x=1205, z=5410), x_step=256,
+    def __init__(self, chembot, z_len=12, x_len=8, anchor=Coordinates(x=170, z=2770), x_step=256,
                  z_step=256, **kwargs):
 
         super().__init__(chembot=chembot, z_len=z_len, x_len=x_len, anchor=anchor, x_step=x_step,
@@ -103,7 +103,8 @@ class TubeStorage(BaseStorage):
         self.chembot.set_coordinates(self.pipet_by_id(idx))
         self.chembot.steppers.y_l.set_position(self.left_pipet_get_hight, speed=2500)
         self.chembot.steppers.l_pipet.set_position(pipet.volume_to_steps(vol))
-        pipet.occupied_vol = vol
+        self.pipet = pipet
+        self.pipet.occupied_vol = vol
         self.chembot.steppers.y_l.set_position(0, speed=2500)
         self.cap_close(idx)
 
