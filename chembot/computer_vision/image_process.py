@@ -1,4 +1,4 @@
-from os import system, remove
+from os import system, remove, path
 from time import time
 from loguru import logger
 from .detector import Detector
@@ -11,8 +11,9 @@ class ImageProcessor(Detector):
         self.tmp_file = tmp_file
 
     def predict(self, device=0, skip=3):
-        remove(self.tmp_file)
-        logger.info("previous photo removed")
+        if path.exists(self.tmp_file):
+            remove(self.tmp_file)
+            logger.info("previous photo removed")
         command = f"fswebcam -d /dev/video{device} -r 1920x1080 -S {skip} --no-banner " \
                 f"{self.tmp_file}"
         #command = ["fswebcam", "-d", "/dev/video2", "-D", "1", "-r", "1920x1080", "-S", "2", "--no-banner", "/home/robot/code/yolov5/images/image1.jpg"]

@@ -52,7 +52,7 @@ def substance_solution(molecule_id: int,
     chembot.storages.tube_storage.slots[molecule_id] = new
     # chembot.storages.tube_storage.fill_slot(molecule_id, new)
 
-    return molecule_id, pipet
+    return molecule_id, new
 
 
 def do_synthesys(reaction, reactor_id, temperature, time):
@@ -91,7 +91,7 @@ def do_synthesys(reaction, reactor_id, temperature, time):
                                                             target_solvent_vol,
                                                             new)
 
-            _, pipet = chembot.storages.pipet_holder.next_pipet()
+            #_, pipet = chembot.storages.pipet_holder.next_pipet()
             chembot.storages.tube_storage.left_pipet_get(molecule_id,
                                                          (target_solution_vol * 1000),
                                                          pipet=pipet)

@@ -25,7 +25,7 @@ class Chembot:
     def coord_initialized(self):
         return not self.steppers.x._stepper_state and not self.steppers.z._stepper_state
 
-    def set_coordinates(self, coord: Coordinates, speed: int = 1500, x_first=True):
+    def set_coordinates(self, coord: Coordinates, speed: int = 5000, x_first=True):
         if self.coord_initialized:
             if x_first:
                 self.steppers.x.set_position(coord.x, speed=speed)

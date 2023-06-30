@@ -1,18 +1,23 @@
 import cv2
 import numpy as np
 from PIL import Image
-import tflite_runtime.interpreter as tflite
 import statistics
 import os
 from loguru import logger
 from memory_profiler import profile
-# import tensorflow as tf
 
 # https://bestprogrammer.ru/programmirovanie-i-razrabotka/python-opencv-markirovka-i-analiz-podklyuchennyh-komponentov
 class Detector:
 
     def __init__(self, model_path):
-        self.model = tflite.Interpreter(model_path=model_path)
+        try:
+            import tflite_runtime.interpreter as tflite
+            self.model = tflite.Interpreter(model_path=model_path)
+            tflite_lib_exist = True
+        except ModuleNotFoundError:
+            import tensorflow as tf
+            tflite_lib_exist = False
+            self.model = tf.lite.Interpreter(model_path=model_path)
         self.size = 512
         self.dict_classes = {(158, 26, 107): 'cap', (51, 91, 102): 'hole', (0, 0, 0): 'background', (125, 5, 10): '0',
                              (209, 35, 69): '1', (53, 13, 234): '2', (71, 159, 254): '3',

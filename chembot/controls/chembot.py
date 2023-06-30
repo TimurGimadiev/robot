@@ -53,7 +53,7 @@ class Extras():
         self.vacuum_tap = VacuumTap(**kwargs)
         self.uv_lamp = UVLamp(**kwargs)
         self.mixer = Mixer(**kwargs)
-        self.thermostat = Heater(**kwargs)
+        self.heater = Heater(**kwargs)
 
 
 # class Chembot:

@@ -72,20 +72,22 @@ class TubeStorage(BaseStorage):
         self.chembot.motors.cap_remover.pins_up()
 
     def cap_open(self, idx):
+        self.in_operation = True
         self.chembot.motors.cap_remover.pins_up()
         self.chembot.set_coordinates(self.num2position(idx))
-        self.chembot.steppers.op.set_position(self.before_cap, speed=2500)
+        self.chembot.steppers.op.set_position(self.before_cap, speed=4000)
         self.chembot.motors.cap_rotator.close(time=2000)
         self.chembot.steppers.op.set_position(self.lowest)
         self.chembot.motors.cap_rotator.open(time=4000)
         self.chembot.steppers.op.set_position(0, speed=2500)
 
     def cap_close(self, idx):
+        self.in_operation = True
         self.chembot.set_coordinates(self.num2position(idx))
         # self.chembot.devices.motors.cap_rotator.close(time=8000)
         # self.chembot.devices.steppers.op.set_position(1000)
         # sleep(2)
-        self.chembot.steppers.op.set_position(self.before_put_tube, speed=2500)
+        self.chembot.steppers.op.set_position(self.before_put_tube, speed=4000)
         self.chembot.motors.cap_rotator.close(time=5000)
         self.chembot.steppers.op.set_position(self.lowest)  # 12000)
         sleep(0.5)
@@ -93,6 +95,7 @@ class TubeStorage(BaseStorage):
         self.chembot.steppers.op.set_position(self.before_cap)
         self.chembot.steppers.op.set_position(0, speed=2500)
         self.chembot.motors.cap_remover.pins_up()
+        self.in_operation = False
 
     def pipet_by_id(self, id):
         coord = self.num2position(id)
@@ -107,6 +110,7 @@ class TubeStorage(BaseStorage):
         pipet.occupied_vol = vol
         self.chembot.steppers.y_l.set_position(0, speed=2500)
         self.cap_close(idx)
+
 
     def left_pipet_put(self, idx, vol=0.5, pipet: BluePipet = BluePipet()):
         if vol > pipet.occupied_vol:

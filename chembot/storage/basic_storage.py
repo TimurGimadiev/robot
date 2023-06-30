@@ -18,6 +18,7 @@ class BaseStorage:
         self.z_step = z_step
         self.chembot = chembot
         self.fake = fake
+        self.in_operation = False
 
     def step(self, z: int = 0, x: int = 0) -> Coordinates:
         if x >= 0:                                                      # +right, -left

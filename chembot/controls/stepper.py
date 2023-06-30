@@ -53,8 +53,9 @@ class Stepper(BaseDevice):
             #print(r)
         #print(r)
     
-    def set_position(self, position: int, speed: int = 1500, mode: int = 0,
-                     soft_start_time: int = 1, blocking_processes=True):
+    def set_position(self, position: int, speed: int = 5000, mode: int = 1,
+                     #speed=5000, mode=1, soft_start_time=500
+                     soft_start_time: int = 500, blocking_processes=True):
         if self._validate_position(position):
             self.wait()
             if not self.fake:

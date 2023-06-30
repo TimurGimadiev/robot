@@ -42,7 +42,7 @@ bot_response = {
 
 class BaseDevice:
 
-    def __init__(self, path=Path("chembot/controls/libchembot.so").absolute().name,
+    def __init__(self, path=Path("./chembot/controls/libchembot.so").absolute(),
                  fake: bool = False):
         self.fake = fake
         if not fake:
