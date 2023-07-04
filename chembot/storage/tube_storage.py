@@ -22,7 +22,7 @@ class TubeStorage(BaseStorage):
         self.before_cap = 10000
         self.lowest = 13300
         self.before_put_tube = 11000
-        self.left_pipet_get_hight = 38000  # 36000 отбор проб из вортекса
+        self.left_pipet_get_hight = 36700   # 38000  # 36000 отбор проб из вортекса
         self.left_pipet_put_hight = 26500
 
     @property
@@ -75,7 +75,7 @@ class TubeStorage(BaseStorage):
         self.in_operation = True
         self.chembot.motors.cap_remover.pins_up()
         self.chembot.set_coordinates(self.num2position(idx))
-        self.chembot.steppers.op.set_position(self.before_cap, speed=4000)
+        self.chembot.steppers.op.set_position(self.before_cap, speed=7000)
         self.chembot.motors.cap_rotator.close(time=2000)
         self.chembot.steppers.op.set_position(self.lowest)
         self.chembot.motors.cap_rotator.open(time=4000)
@@ -87,14 +87,15 @@ class TubeStorage(BaseStorage):
         # self.chembot.devices.motors.cap_rotator.close(time=8000)
         # self.chembot.devices.steppers.op.set_position(1000)
         # sleep(2)
-        self.chembot.steppers.op.set_position(self.before_put_tube, speed=4000)
+        self.chembot.steppers.op.set_position(self.before_put_tube, speed=7000)
         self.chembot.motors.cap_rotator.close(time=5000)
         self.chembot.steppers.op.set_position(self.lowest)  # 12000)
         sleep(0.5)
         self.chembot.motors.cap_remover.eject()
         self.chembot.steppers.op.set_position(self.before_cap)
-        self.chembot.steppers.op.set_position(0, speed=2500)
+        self.chembot.steppers.op.set_position(0, speed=7000)
         self.chembot.motors.cap_remover.pins_up()
+
         self.in_operation = False
 
     def pipet_by_id(self, id):
@@ -108,7 +109,7 @@ class TubeStorage(BaseStorage):
         self.chembot.steppers.l_pipet.set_position(pipet.volume_to_steps(vol))
         #self.pipet = pipet
         pipet.occupied_vol = vol
-        self.chembot.steppers.y_l.set_position(0, speed=2500)
+        self.chembot.steppers.y_l.set_position(0, speed=7000)
         self.cap_close(idx)
 
 
@@ -143,9 +144,9 @@ class TubeStorage(BaseStorage):
         self.chembot.set_coordinates(self.pipet_by_id(idx))
         self.chembot.steppers.y_l.set_position(self.left_pipet_get_hight, speed=2500)
         self.chembot.steppers.l_pipet.set_position(0, speed=1500)
-        self.chembot.steppers.l_pipet.set_position(pipet.volume_to_steps(vol), speed=1500)
+        self.chembot.steppers.l_pipet.set_position(pipet.volume_to_steps(0.8), speed=1500)
         self.chembot.steppers.l_pipet.set_position(0, speed=1500)
-        self.chembot.steppers.l_pipet.set_position(pipet.volume_to_steps(vol), speed=1500)
+        self.chembot.steppers.l_pipet.set_position(pipet.volume_to_steps(0.8), speed=1500)
         self.chembot.steppers.l_pipet.set_position(0, speed=1500)
         pipet.occupied_vol = 0
         self.chembot.steppers.y_l.set_position(0, speed=2500)

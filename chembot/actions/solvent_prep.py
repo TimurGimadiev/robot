@@ -6,12 +6,10 @@ from ..custom_types import Slots
 class SolutionPrepare:
     #only for liquids
     def __init__(self, molecule, molecule_volume, solvent, solvent_volume):
-        slots_with_mol = chembot.storages.tube_storage.search_molecule(molecule)
-        slots_with_solvent = chembot.storages.tube_storage.search_molecule(solvent)
         avilable_slot = chembot.storages.tube_storage.next_avilable_slot
-        pipet_id = chembot.storages.pipet_holder.next_pipet()
+        pipet_id, pipet = chembot.storages.pipet_holder.next_pipet()
         success = False
-        for slot in slots_with_mol:
+        for slot in chembot.storages.tube_storage.search_molecule(molecule):
             if chembot.storages.tube_storage.slots[slot].volume > molecule_volume:
                 success = True
                 chembot.storages.tube_storage.left_pipet_get(slot, molecule_volume,
@@ -24,7 +22,7 @@ class SolutionPrepare:
             chembot.storages.tube_storage[avilable_slot] = Slots.PROCESSING
         pipet_id = chembot.storages.pipet_holder.next_pipet()
         success = False
-        for slot in slots_with_solvent:
+        for slot in chembot.storages.tube_storage.search_molecule(solvent):
             if chembot.storages.tube_storage.slots[slot].volume > solvent_volume:
                 success = True
                 chembot.storages.tube_storage.left_pipet_get(slot, solvent_volume,

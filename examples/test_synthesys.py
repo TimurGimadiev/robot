@@ -14,10 +14,10 @@ from chembot.chemistry import Reaction, Molecule, Solution2C, smiles
 
 def start_synthesys():
     data = {
-        "stoichiometry": {"reactants": {1: 1, 2: 2}, "products": {1: 1}},
+        "stoichiometry": {"reactants": {"1": 1, "2": 2}, "products": {"1": 1}},
         "target": {"product": False, "idx": 1, "mols": 0.0005, "mass": None},
-        "states": {"reactants": {1: "liquid", 2: "liquid"}, "product": {1: None}},
-        "density": {"reactants": {1: 1.62, 2: 0.7851}, "product": {1: None}},
+        "states": {"reactants": {"1": "liquid", "2": "liquid"}, "product": {"1": None}},
+        "density": {"reactants": {"1": 1.62, "2": 0.7851}, "product": {"1": None}},
         "solvent": {"density": 1.0, "smiles": "O"}
     }
 

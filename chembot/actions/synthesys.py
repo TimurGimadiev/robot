@@ -52,10 +52,12 @@ def substance_solution(molecule_id: int,
     chembot.storages.tube_storage.slots[molecule_id] = new
     # chembot.storages.tube_storage.fill_slot(molecule_id, new)
 
-    return molecule_id, new
+    return molecule_id, pipet
 
 
 def do_synthesys(reaction, reactor_id, temperature, time):
+    if not chembot.storages.reactor.anchor_status:
+        chembot.storages.reactor.anchor_correct()
     for id_x in range(len(reaction.reactants)):
         tube_id = chembot.storages.tube_storage.search_molecule(reaction.reactants[id_x])
         solvent = reaction.reactants[id_x].solvent
@@ -96,7 +98,11 @@ def do_synthesys(reaction, reactor_id, temperature, time):
                                                          (target_solution_vol * 1000),
                                                          pipet=pipet)
 
-            chembot.storages.reactor.anchor_correct()
+            if not chembot.storages.reactor.anchor_status:
+                chembot.storages.reactor.anchor_correct()
+            chembot.storages.reactor.left_pipet_put_and_mix(reactor_id,
+                                                             (target_solution_vol * 1000),
+                                                             pipet=pipet)
             chembot.storages.reactor.left_pipet_put_till_end(reactor_id,
                                                              (target_solution_vol * 1000),
                                                              pipet=pipet)

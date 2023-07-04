@@ -3,6 +3,7 @@ from .controls.stepper import XAxis, ZAxis, YAxisL, YAxisR, Opener, RightPipet, 
 from .controls.data_structures import Coordinates
 from .controls.extras import Pump, WS1Cyl, WS2Cyl, VacuumTap, UVLamp, Mixer
 from .controls.heater import Thermometer, Thermostat, Heater
+from .controls.mixing_watcher import MixWatcher
 from .controls.chembot import Steppers, Motors, Extras
 from .storage import Storages
 from loguru import logger
@@ -16,6 +17,20 @@ class Chembot:
         self.motors = Motors(**kwargs)
         self.extras = Extras(**kwargs)
         self.storages = Storages(self, **kwargs)
+        self.thermostart = Thermostat(target_temp=10, heater=self.extras.heater,
+                                      thermometer="28-000004e712b7", **kwargs)
+        self.mixwatcher = MixWatcher(0, mixer=self.extras.mixer, **kwargs)
+        self.thermostart.start()
+        self.thermostart.pause()
+        self.mixwatcher.start()
+        self.mixwatcher.pause()
+
+    def mix(self):
+        self.mixwatcher.unpause()
+        self.storages.reactor.anchor_status = False
+
+    def stop_mix(self):
+        self.mixwatcher.pause()
 
     def init_all(self):
         self.motors.init_all()
@@ -75,10 +90,10 @@ class Chembot:
 
     def eject_pipet(self):
         self.set_coordinates(Coordinates(x=2786, z=4660))
-        self.steppers.y_l.set_position(36500, speed=3000)
+        self.steppers.y_l.set_position(36500, speed=7000)
         self.steppers.y_l.set_position(40650)
         self.set_coordinates(Coordinates(x=2786, z=4600))
-        self.steppers.y_l.set_position(0, speed=3000)
+        self.steppers.y_l.set_position(0, speed=7000)
 
     def fill_from_config(self, tube_storage=tube_storage_config, reactor=reactor_config,
                          pipet_storage=pipet_storage_config, big_storage=big_storage_config):

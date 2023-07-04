@@ -72,7 +72,7 @@ class Thermostat(Thread):
         return self.thermometer.temp_c
 
     def pause(self):
-        self.pause_event.is_set()
+        self.pause_event.set()
 
     def unpause(self):
         self.pause_event.clear()

@@ -106,24 +106,24 @@ class Reaction(ReactionContainer):
     @staticmethod
     def _fill_group_mols(molecules, mapping, target_mols):
         for num, molecule in enumerate(molecules, start=1):
-            molecule.mols = mapping[num] * target_mols
+            molecule.mols = mapping[str(num)] * target_mols
 
     @staticmethod
     def _fill_mol_states(molecules, props):
         for num, molecule in enumerate(molecules, start=1):
-            molecule.state = props[num]
+            molecule.state = props[str(num)]
 
     @staticmethod
     def _fill_mol_densities(molecules, props):
         for num, molecule in enumerate(molecules, start=1):
-            molecule.density = props[num]
+            molecule.density = props[str(num)]
 
     # @staticmethod
     # def _fill_group_(molecules, mapping, target_mols):
     #     for num, molecule in enumerate(molecules, start=1):
     #         molecule.mols = mapping[num] * target_mols
 
-    def _solve_volumes(self,):
+    def _solve_volumes(self):
         for mol in self.reactants:
             # need solvent?
             if mol.volume < self.max_volume:  # yes solvent needed
@@ -135,7 +135,8 @@ class Reaction(ReactionContainer):
 
         self.total_volume = sum([x.volume if x.volume else 0 for x in self.reactants])
 
-
+    def __additives(self, props):
+        pass
 
 
 
