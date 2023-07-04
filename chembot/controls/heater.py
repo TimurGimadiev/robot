@@ -50,7 +50,7 @@ class Thermostat(Thread):
         super().__init__()
         self.__taget_temp = round(target_temp, 1)
         self.thermometer = Thermometer(id=thermometer, fake=fake)
-        self.event = Event()
+        self.pause_event = Event()
         self.period = period
         if not fake:
             self.heater = heater if heater else Heater()
@@ -71,6 +71,12 @@ class Thermostat(Thread):
     def cur_temp(self):
         return self.thermometer.temp_c
 
+    def pause(self):
+        self.pause_event.is_set()
+
+    def unpause(self):
+        self.pause_event.clear()
+
     def calc_pulse(self):
         dif = self.taget_temp - self.cur_temp
         if dif > 20:
@@ -88,13 +94,14 @@ class Thermostat(Thread):
 
     def run(self):
         while True:
-            if self.event.is_set():
-                break
-            sleep_time = self.calc_pulse()
-            self.heater.power_on()
-            sleep(sleep_time)
-            self.heater.power_off()
-            sleep(self.period-sleep_time)
+            if self.pause_event.is_set():
+                sleep(30)
+            else:
+                sleep_time = self.calc_pulse()
+                self.heater.power_on()
+                sleep(sleep_time)
+                self.heater.power_off()
+                sleep(self.period-sleep_time)
 
 
 

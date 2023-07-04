@@ -84,94 +84,109 @@ class Substance(Molecule):
         # solid molecules do not processed
         self.__concentration = concentration
 
-    def solution_from_solid(self, *, solvent=None, mols=None, target_solvent_vol=0.00015,
-                         min_volume=0.0001, v_max=0.001, tube_vol=0.0015):
-        if self.pure_mass and self.pure_mass >= (mols * self.molecular_mass * 1000):
-                target_solution_vol = min_volume
-                concentration = self.pure_mass / self.molecular_mass / 1000 / target_solution_vol
-                target_solvent_vol = self.pure_mass / (self.molecular_mass * concentration)
-                target_substance_vol = 0
+    def solution_from_solid(self, target_mols,
+                            target_concentration):
+        if self.pure_mass and (self.pure_mass * 1000) >= (target_mols * self.molecular_mass):
+            target_solvent_vol = self.pure_mass * 1000 / (self.molecular_mass * target_concentration)
+            target_substance_vol = 0
         else:
-            raise ValueError("pure_mass should be provided and it sould be enough to prepare "
+            raise ValueError("pure_mass should be provided and it should be enough to prepare "
                              "target solution")
-        return target_solution_vol, target_substance_vol, target_solvent_vol
+        return (target_substance_vol,
+                target_solvent_vol)
 
-    def solution_from_pure_liquid_substance(self, mols, target_solvent_vol=0.00015,
-                         min_volume=0.0001, v_max=0.001, tube_vol=0.0015):
-        target_substance_vol = mols * self.molecular_mass / 1000 / self.density
-        # logger.info(f"target_substance_vol {Volume(target_substance_vol).show_mkl}")
-
+    def solution_from_pure_liquid_substance(self, target_mols,
+                                            target_concentration,
+                                            min_volume=0.0001):
+        target_substance_vol = target_mols * self.molecular_mass / (1000 * self.density)
         if (min_volume * 0.9) < target_substance_vol < min_volume:
             target_solution_vol = target_substance_vol * 10 / 9
             target_substance_vol = 9 * min_volume
             target_solvent_vol = min_volume
+            concentration = target_substance_vol * self.density * 1000 / \
+                            (self.molecular_mass * (target_substance_vol + target_solvent_vol))
         elif (min_volume / 2) < target_substance_vol <= (min_volume * 0.9):
+            concentration = target_concentration
             target_solvent_vol = min_volume
-            target_substance_vol = min_volume * target_substance_vol / (
-                    min_volume - target_substance_vol)
-            target_solution_vol = 0.0001
+            target_solution_vol = min_volume
+            target_substance_vol = target_solvent_vol * target_substance_vol / \
+                                   (target_solution_vol - target_substance_vol)
         elif target_substance_vol <= (min_volume / 2):
-            #concentration = self.concentration
+            concentration = target_concentration
             target_substance_vol = min_volume
-            a = (min_volume * self.density) # KG
-            b = (self.molecular_mass * (self.mols/self.volume) / 1000) #
-            target_solvent_vol = (a / b) - min_volume
-            target_solution_vol = 0.0001
+            target_solution_vol = min_volume
+            target_solvent_vol = \
+                ((min_volume * self.density * 1000) /
+                 (self.molecular_mass * concentration)) - min_volume
         else:
+            concentration = None
             target_solution_vol = target_substance_vol
             target_solvent_vol = 0
-        return target_solution_vol, target_substance_vol, target_solvent_vol
+        return (target_solution_vol,
+                target_substance_vol,
+                target_solvent_vol,
+                concentration)
 
-    def prepare_solution(self, mols, solvent, mass=None, target_solvent_vol=0.00015,
+    def solution_from_liquid_mixture(self, target_mols,
+                                     target_concentration,
+                                     concentration,
+                                     min_volume=0.0001):
+        target_solution_vol = target_mols / concentration
+        if (min_volume * 0.9) < target_solution_vol < min_volume:
+            target_solution_vol = target_solution_vol * 10 / 9
+            target_substance_vol = 9 * min_volume
+            target_solvent_vol = min_volume
+            concentration = target_substance_vol * concentration / \
+                            (target_substance_vol + target_solvent_vol)
+        elif (min_volume / 2) < target_solution_vol <= (min_volume * 0.9):
+            target_solvent_vol = min_volume
+            target_substance_vol = min_volume * target_solution_vol / (min_volume - target_solution_vol)
+            target_solution_vol = min_volume
+            concentration = target_concentration
+        elif target_solution_vol <= (min_volume / 2):
+            target_substance_vol = min_volume
+            target_solution_vol = min_volume
+            target_solvent_vol = ((min_volume * concentration) / target_concentration) - min_volume
+            concentration = target_concentration
+        else:
+            target_substance_vol = target_solution_vol
+            target_solvent_vol = 0
+            concentration = None
+        return (target_solution_vol,
+                target_substance_vol,
+                target_solvent_vol,
+                concentration)
+
+    def prepare_solution(self, target_mols,
                          min_volume=0.0001,
-                         v_max=0.001, tube_vol=0.0015):
-        #target_mols = self.mols
-        target_concentration = mols / (v_max * min_volume) /1000
-        #concentration = self.concentration
-        target_solution_vol = None
+                         v_max=0.001,
+                         tube_vol=0.0015):
+        target_solution_vol = min_volume
         target_substance_vol = None
+        target_solvent_vol = None
+        target_concentration = target_mols / target_solution_vol
         new = self.copy()
 
         # pure solid compound in tube
         if self.state is State.SOLID:
-            target_solution_vol, target_substance_vol, target_solvent_vol = \
-                self.solution_from_solid(mols=mols, solvent=solvent,
-                                         target_solvent_vol=0.00015, min_volume=0.0001,
-                                         v_max=0.001, tube_vol=0.0015)
-            new.volume = Volume(target_solution_vol)
-            new.concentration = mols/target_solvent_vol
+            target_substance_vol, target_solvent_vol = \
+                self.solution_from_solid(target_mols, target_concentration)
+
+            new.volume = Volume(target_solvent_vol)
+            new.concentration = target_concentration
 
         # pure liquid compound in tube
         elif (self.state is State.LIQUID) and (self.concentration is None):
-            target_solution_vol, target_substance_vol, target_solvent_vol = \
-                self.solution_from_pure_liquid_substance(mols, target_solvent_vol=0.00015,
-                                                         min_volume=0.0001, v_max=0.001,
-                                                         tube_vol=0.0015)
+            target_solution_vol, target_substance_vol, target_solvent_vol, new.concentration = \
+                self.solution_from_pure_liquid_substance(target_mols, target_concentration)
+            new.volume = Volume(target_solvent_vol + target_substance_vol)
 
         # liquid mixture in tube
         elif (self.state is State.LIQUID) and (self.concentration is not None):
-            target_solution_vol = mols / self.concentration
+            target_solution_vol, target_substance_vol, target_solvent_vol, new.concentration = \
+                self.solution_from_liquid_mixture(target_mols, target_concentration, self.concentration)
+            new.volume = Volume(target_solvent_vol + target_substance_vol)
 
-            if (min_volume * 0.9) < target_solution_vol < min_volume:
-                target_solution_vol = target_solution_vol * 10 / 9
-                target_substance_vol = 9 * min_volume
-                target_solvent_vol = min_volume
-            elif (min_volume / 2) < target_solution_vol <= (min_volume * 0.9):
-                target_solvent_vol = min_volume
-                target_substance_vol = min_volume * target_solution_vol / (
-                            min_volume - target_solution_vol)
-                target_solution_vol = 0.0001
-            elif target_solution_vol <= (min_volume / 2):
-                target_substance_vol = min_volume
-                target_solvent_vol = ((
-                                                  min_volume * self.concentration) /
-                                      target_concentration) - min_volume
-                #concentration = target_concentration
-                target_solution_vol = 0.0001
-            else:
-                target_substance_vol = target_solution_vol
-                target_solvent_vol = 0
-            concentration = target_substance_vol / self.density / self.molecular_mass / 1000
         if target_solution_vol > v_max:
             print('Too much solution')
             return None
@@ -183,18 +198,10 @@ class Substance(Molecule):
             print('Not enough tube volume')
             return None
 
-        # create new compound
-        # pure compound returned
-        # if not target_solvent_vol:
-        #     new.volume = target_substance_vol
-        # new.volume = target_substance_vol
-        # new.solvent = solvent
-        #new.concentration = concentration
-        return {"target_solution_vol": Volume(target_solution_vol),
-                "target_substance_vol": Volume(target_substance_vol),
-                "target_solvent_vol": Volume(target_solvent_vol),
-                # "new_substance": new
-                }
+        return (target_solution_vol,
+                target_substance_vol,
+                target_solvent_vol,
+                new)
 
 
 
