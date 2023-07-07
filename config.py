@@ -1,28 +1,28 @@
 tube_storage_config = {9: "available",
- 10: {"smiles": "CC(C)=O", "volume":0.001, "mols":None, "state": "liquid", "density":0.784,
-     "concentration":None,
-     "solvent":{"smiles": None}},
+ 10: {"smiles": "CC(C)=O", "volume": 0.001, "mols": None, "state": "liquid", "density": 0.784,
+     "concentration": None,
+     "solvent": {"smiles": None}},
  13: "available",
 
  15: "available",
 
- 16: {"smiles": "O", "volume":0.001, "mols":None, "state": "liquid", "density":1.0,
+ 16: {"smiles": "O", "volume": 0.001, "mols": None, "state": "liquid", "density": 1.0,
+     "concentration": None,
+     "solvent":{"smiles": None}},
+
+ 17: {"smiles": "CCO", "volume": 0.001, "mols": None, "state": "liquid", "density": 0.7851,
      "concentration":None,
      "solvent":{"smiles": None}},
 
- 17: {"smiles": "CCO", "volume":0.001, "mols":None, "state": "liquid", "density":0.7851,
+ 18:  {"smiles": "CC(C)=O", "volume": 0.001, "mols": None, "state": "liquid", "density": 0.784,
      "concentration":None,
      "solvent":{"smiles": None}},
 
- 18:  {"smiles": "CC(C)=O", "volume": 0.001, "mols":None, "state": "liquid", "density": 0.784,
+ 23: {"smiles": "OC(=O)CC(O)=O", "volume":0.001, "mols": None, "state": "liquid", "density":1.62,
      "concentration":None,
      "solvent":{"smiles": None}},
 
- 23: {"smiles": "OC(=O)CC(O)=O", "volume":0.001, "mols":None, "state": "liquid", "density":1.62,
-     "concentration":None,
-     "solvent":{"smiles": None}},
-
- 35:  {"smiles": "CC(C)=O", "volume":0.001, "mols":None, "state": "liquid", "density":0.784,
+ 35:  {"smiles": "CC(C)=O", "volume":0.001, "mols": None, "state": "liquid", "density":0.784,
      "concentration":None,
      "solvent":{"smiles": None}}
 }
@@ -44,7 +44,7 @@ reactor_config = {
 4:"available",
 }
 big_storage_config = {
- 1:  {"smiles": "O", "volume":0.001, "mols":None, "state": "liquid", "density":1.0,
-     "concentration":None,
+ 1:  {"smiles": "O", "volume": 0.001, "mols": None, "state": "liquid", "density":1.0,
+     "concentration": None,
      "solvent":{"smiles": None}},
 }
