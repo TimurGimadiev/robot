@@ -24,7 +24,7 @@ class Reactor(TubeStorage):
         self.left_pipet_get_hight = 36000  # 36000 отбор проб из вортекса
         self.camera_before_photo = Coordinates(3600, 3800)
         self.camera_coord = Coordinates(4100, 4550)
-        self.camera_to_opener_correction = Coordinates(-300, 640)
+        self.camera_to_opener_correction = Coordinates(-390, 640)
         self.anchor_status = False
 
     def anchor_correct(self):

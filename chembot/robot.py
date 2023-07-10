@@ -40,7 +40,7 @@ class Chembot:
     def coord_initialized(self):
         return not self.steppers.x._stepper_state and not self.steppers.z._stepper_state
 
-    def set_coordinates(self, coord: Coordinates, speed: int = 5000, x_first=True):
+    def set_coordinates(self, coord: Coordinates, speed: int = 7000, x_first=True):
         if self.coord_initialized:
             if x_first:
                 self.steppers.x.set_position(coord.x, speed=speed)
@@ -90,10 +90,10 @@ class Chembot:
 
     def eject_pipet(self):
         self.set_coordinates(Coordinates(x=2786, z=4660))
-        self.steppers.y_l.set_position(36500, speed=7000)
-        self.steppers.y_l.set_position(40650)
+        self.steppers.y_l.set_position(36500, speed=8000)
+        self.steppers.y_l.set_position(40990)
         self.set_coordinates(Coordinates(x=2786, z=4600))
-        self.steppers.y_l.set_position(0, speed=7000)
+        self.steppers.y_l.set_position(0, speed=8000)
 
     def fill_from_config(self, tube_storage=tube_storage_config, reactor=reactor_config,
                          pipet_storage=pipet_storage_config, big_storage=big_storage_config):

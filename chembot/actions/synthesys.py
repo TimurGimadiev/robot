@@ -100,15 +100,15 @@ def do_synthesys(reaction, reactor_id, temperature, time):
 
             if not chembot.storages.reactor.anchor_status:
                 chembot.storages.reactor.anchor_correct()
-            chembot.storages.reactor.left_pipet_put_and_mix(reactor_id,
-                                                             (target_solution_vol * 1000),
-                                                             pipet=pipet)
+            # chembot.storages.reactor.left_pipet_put_and_mix(reactor_id,
+            #                                                  (target_solution_vol * 1000),
+            #                                                  pipet=pipet)
             chembot.storages.reactor.left_pipet_put_till_end(reactor_id,
                                                              (target_solution_vol * 1000),
                                                              pipet=pipet)
 
-            print(f'{reaction.reactants[id_x]} is ready')
+            logger.info(f'{reaction.reactants[id_x]} is ready')
             break
-
+    logger.info(f'reaction {reaction} is ready to start')
     # reaction.meta.update({"temperature": 40, "time": 50})
     return None
