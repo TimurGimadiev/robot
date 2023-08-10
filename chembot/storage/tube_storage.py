@@ -1,6 +1,7 @@
 from .basic_storage import BaseStorage
 from ..data_structure import Coordinates
 import numpy as np
+import json
 from time import sleep
 from .pipet_types import BluePipet
 from typing import Optional, List
@@ -224,6 +225,13 @@ class TubeStorage(BaseStorage):
                 slots.append(k)
         return slots
 
+    def fill_from_json(self, path="chembot/inputs/tubes_storage.json"):
+        with open(path) as tube_storage_file:
+            data = json.load(tube_storage_file)
+            for k, v in data[0].items():
+                if v:
+                    logger.info(f"{v}")
+                    self.slot_from_mol_data(int(k), v)
     # def tube_available_moves(self, idx) -> Optional[List]:
     #     position = self.num2position(idx)
     #     moves = []

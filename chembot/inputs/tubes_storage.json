@@ -1,0 +1,144 @@
+[
+  {
+    "9": "available",
+    "10": {
+      "concentration": null,
+      "density": 0.784,
+      "mols": null,
+      "smiles": "CC(C)=O",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    },
+    "13": "available",
+    "15": "available",
+    "16": {
+      "concentration": null,
+      "density": 1.0,
+      "mols": null,
+      "smiles": "O",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    },
+    "17": {
+      "concentration": null,
+      "density": 0.7851,
+      "mols": null,
+      "smiles": "CCO",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    },
+    "18": {
+      "concentration": null,
+      "density": 0.784,
+      "mols": null,
+      "smiles": "CC(C)=O",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    },
+    "23": {
+      "concentration": null,
+      "density": 1.62,
+      "mols": null,
+      "smiles": "OC(=O)CC(O)=O",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    },
+    "35": {
+      "concentration": null,
+      "density": 0.784,
+      "mols": null,
+      "smiles": "CC(C)=O",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    }
+  },
+  {
+    "9": "available",
+    "10": {
+      "concentration": null,
+      "density": 0.784,
+      "mols": "None",
+      "smiles": "CC(C)=O",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    },
+    "13": "available",
+    "15": "available",
+    "16": {
+      "concentration": null,
+      "density": 1.0,
+      "mols": null,
+      "smiles": "O",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    },
+    "17": {
+      "concentration": null,
+      "density": 0.7851,
+      "mols": null,
+      "smiles": "CCO",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    },
+    "18": {
+      "concentration": null,
+      "density": 0.784,
+      "mols": null,
+      "smiles": "CC(C)=O",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    },
+    "23": {
+      "concentration": null,
+      "density": 1.62,
+      "mols": null,
+      "smiles": "OC(=O)CC(O)=O",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    },
+    "35": {
+      "concentration": null,
+      "density": 0.784,
+      "mols": null,
+      "smiles": "CC(C)=O",
+      "solvent": {
+        "smiles": null
+      },
+      "state": "liquid",
+      "volume": 0.001
+    }
+  }
+]

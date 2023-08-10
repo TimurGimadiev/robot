@@ -1,7 +1,9 @@
 from .tube_storage import TubeStorage
 from ..data_structure import Coordinates
 import numpy as np
+import json
 from ..computer_vision import predict as visual_control
+#from ..actions.synthesys import Synthesis
 
 
 class Reactor(TubeStorage):
@@ -24,7 +26,7 @@ class Reactor(TubeStorage):
         self.left_pipet_get_hight = 36000  # 36000 отбор проб из вортекса
         self.camera_before_photo = Coordinates(3600, 3800)
         self.camera_coord = Coordinates(4100, 4550)
-        self.camera_to_opener_correction = Coordinates(-390, 640)
+        self.camera_to_opener_correction = Coordinates(-300, 640)
         self.anchor_status = False
 
     def anchor_correct(self):
@@ -37,4 +39,14 @@ class Reactor(TubeStorage):
             z = self.camera_coord.z + self.z_correction / self.z_scale + self.camera_to_opener_correction.z
             self.anchor = Coordinates(x=int(x), z=int(z))
             self.anchor_status = True
+
+    # def fill_from_json(self, path="chembot/inputs/reactions.json", path2="chembot/inputs/data.json"):
+    #     with open(path) as reactions_file:
+    #         reactions = json.load(reactions_file)
+    #     with open(path2) as data_file:
+    #         data = json.load(data_file)
+    #         for key, value in reactions[0].items():
+    #             for data_key, data_value in data[0].items():
+    #                 reaction = smiles(value, data_value)
+    #                 do_synthesys(reaction, 1, 1, 1)
 

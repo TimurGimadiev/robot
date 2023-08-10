@@ -73,7 +73,7 @@ class BigTubes(BaseStorage):
             elif mol.state is State.LIQUID and mol.pure_mass:
                 mol.mols = mol.pure_mass / mol.molecular_mass * 1000
             else:
-                raise ValueError("mols or volume and density or pure mass sjould be provided")
+                raise ValueError("mols or volume and density or pure mass should be provided")
     def fill_from_config(self, data):
         for k, v in data.items():
             if v:

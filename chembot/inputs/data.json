@@ -1,0 +1,84 @@
+[
+    {
+        "1": {
+            "stoichiometry": {
+                "reactants": {
+                    "1": 1,
+                    "2": 2
+                },
+                "products": {
+                    "1": 1
+                }
+            },
+            "target": {
+                "product": false,
+                "idx": 1,
+                "mols": 0.0005,
+                "mass": null
+            },
+            "states": {
+                "reactants": {
+                    "1": "liquid",
+                    "2": "liquid"
+                },
+                "product": {
+                    "1": null
+                }
+            },
+            "density": {
+                "reactants": {
+                    "1": 1.62,
+                    "2": 0.7851
+                },
+                "product": {
+                    "1": null
+                }
+            },
+            "solvent": {
+                "density": 1.0,
+                "smiles": "O"
+            }
+        }
+    },
+    {
+        "2": {
+            "stoichiometry": {
+                "reactants": {
+                    "1": 1,
+                    "2": 2
+                },
+                "products": {
+                    "1": 1
+                }
+            },
+            "target": {
+                "product": false,
+                "idx": 1,
+                "mols": 0.0005,
+                "mass": null
+            },
+            "states": {
+                "reactants": {
+                    "1": "liquid",
+                    "2": "liquid"
+                },
+                "product": {
+                    "1": null
+                }
+            },
+            "density": {
+                "reactants": {
+                    "1": 1.62,
+                    "2": 0.7851
+                },
+                "product": {
+                    "1": null
+                }
+            },
+            "solvent": {
+                "density": 1.0,
+                "smiles": "O"
+            }
+        }
+    }
+]

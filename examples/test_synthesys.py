@@ -1,4 +1,4 @@
-from chembot.actions.synthesys import do_synthesys, substance_solution
+from chembot.actions.synthesys import Synthesis
 from chembot.controls import chembot
 from chembot.storage import Storages
 from chembot.robot import chembot
@@ -12,7 +12,7 @@ from chembot.custom_types import State
 from chembot.chemistry import Reaction, Molecule, Solution2C, smiles
 
 
-def start_synthesys():
+def prepare_synthesys():
     data = {
         "stoichiometry": {"reactants": {"1": 1, "2": 2}, "products": {"1": 1}},
         "target": {"product": False, "idx": 1, "mols": 0.0005, "mass": None},
@@ -23,11 +23,12 @@ def start_synthesys():
 
     reaction = smiles("OC(=O)CC(O)=O.CCO>>CCOC(=O)CC(=O)OCC",
                       data=data)
-    v = smiles("O")
-    v.density = 1.0
-    reaction.reactants[0].solvent = v
-    reaction.reactants[1].solvent = v
-    do_synthesys(reaction, 1, 1, 1)
-
-
+    #v = smiles("O")
+    #v.density = 1.0
+    #reaction.reactants[0].solvent = v
+    #reaction.reactants[1].solvent = v
+    synthesis = Synthesis(reaction, 1, 20, 180)
+    #synthesis.test()
+    #synthesis.do_synthesys()
+    return synthesis
 #start_synthesys()

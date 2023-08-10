@@ -1,5 +1,6 @@
 from .basic_storage import BaseStorage
 from ..data_structure import Coordinates
+import json
 import numpy as np
 from json import load
 from .pipet_types import BluePipet
@@ -8,7 +9,7 @@ from .pipet_types import BluePipet
 class PipetHolder(BaseStorage):
 
     def __init__(self, chembot, z_len=30, x_len=8, anchor=Coordinates(x=30, z=3450), x_step=125,
-                 z_step=125):
+                 z_step=127):
         super().__init__(chembot=chembot, z_len=z_len, x_len=x_len, anchor=anchor, x_step=x_step,
                          z_step=z_step)
         self.__pipet_in_operation = None
@@ -57,4 +58,11 @@ class PipetHolder(BaseStorage):
         for k,v in data.items():
             if v == "blue_pipet":
                 self.fill_slot(k, BluePipet())
+
+    def fill_from_json(self, path="chembot/inputs/pipets.json"):
+        with open(path) as pipet_storage_file:
+            data = json.load(pipet_storage_file)
+            for k, v in data[0].items():
+                if v == "blue_pipet":
+                    self.fill_slot(int(k), BluePipet())
 
