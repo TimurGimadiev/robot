@@ -37,6 +37,8 @@ class Synthesis:
 
             for molecule_id in tube_id:
                 molecule = test_tube_storage.slots[molecule_id]
+                a = molecule.pure_mass
+                b = reactant.mols * molecule.molecular_mass
                 if (molecule.pure_mass * 1000) < (reactant.mols * molecule.molecular_mass):
                     if molecule_id == tube_id[-1]:
                         raise ValueError(f'Not enough {reactant} in storage')
@@ -59,7 +61,6 @@ class Synthesis:
                         required_number_of_tubes += 1
                         required_number_of_pipettes += 1
                     required_number_of_pipettes += 1
-                results['reactant'] = reactant
                 results.update(
                     {'reactant': reactant,
                      'target_solution_vol': Volume(target_solution_vol),
@@ -81,6 +82,26 @@ class Synthesis:
                 tube_id = chembot.storages.tube_storage.search_molecule(reagent)
                 if tube_id == []:
                     raise ValueError(f'{reagent} missing')
+                for reagent_id in tube_id:
+                    reagent = chembot.storages.tube_storage.slots[reagent_id]
+                    if (reagent.pure_mass * 1000) < (reagent.mols * molecule.molecular_mass):
+                        if reagent_id == tube_id[-1]:
+                            raise ValueError(f'Not enough {reagent} in storage')
+                        continue
+
+                    reagent_solution_vol, reagent_substance_vol, reagent_solvent_vol, reagent_concentration = \
+                        reagent.prepare_solution(reagent.mols)
+                    logger.info(f'reagent_solution_vol: {reagent_solution_vol}\n'
+                                f'reagent_substance_vol: {reagent_substance_vol}\n'
+                                f'reagent_solvent_vol: {reagent_solvent_vol}\n'
+                                f'reagent_concentration: {reagent_concentration}')
+                    results.update(
+                        {'reagent_solution_vol': Volume(reagent_solution_vol),
+                         'reagent_substance_vol': Volume(reagent_substance_vol),
+                         'reagent_solvent_vol': Volume(reagent_solvent_vol),
+                         'reagent_concentration': MolarConcentration(reagent_concentration)}
+                    )
+                    break
                 required_number_of_pipettes += 1
 
         for pipet_id, item in test_pipet_storage.slots.items():
