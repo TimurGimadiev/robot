@@ -1,4 +1,4 @@
-#from chembot.controls import chembot
+# from chembot.controls import chembot
 from chembot.robot import chembot
 from loguru import logger
 from chembot.custom_types import State
@@ -15,6 +15,9 @@ class Synthesis:
         self.temperature = temperature
         self.time = time
 
+    def __repr__(self):
+        return f'{self.reaction} at {self.temperature} degree, time: {self.time}'
+
     def test(self, verbose=False):
         test_tube_storage = copy(chembot.storages.tube_storage)
         test_pipet_storage = copy(chembot.storages.pipet_holder)
@@ -22,7 +25,7 @@ class Synthesis:
         available_number_of_tubes = 0
         required_number_of_pipettes = 0
         available_number_of_pipettes = 0
-        results = ''
+        results = {}
 
         for reactant in self.reaction.reactants:
             tube_id = test_tube_storage.search_molecule(reactant)
@@ -56,10 +59,14 @@ class Synthesis:
                         required_number_of_tubes += 1
                         required_number_of_pipettes += 1
                     required_number_of_pipettes += 1
-                results += f'reactant {reactant}:  \n' \
-                           f'target_solution_vol = {target_solution_vol} \n' \
-                           f'target_substance_vol = {target_substance_vol} \n' \
-                           f'target_solvent_vol = {target_solvent_vol} \n'
+                results['reactant'] = reactant
+                results.update(
+                    {'reactant': reactant,
+                     'target_solution_vol': Volume(target_solution_vol),
+                     'target_substance_vol': Volume(target_substance_vol),
+                     'target_solvent_vol': Volume(target_solvent_vol)}
+                )
+
                 break
 
         for tubes_id, state in test_tube_storage.slots.items():
@@ -82,8 +89,8 @@ class Synthesis:
 
         if available_number_of_pipettes < required_number_of_pipettes:
             raise ValueError('Not enough pipettes')
-        results += f'required number of tubes = {required_number_of_tubes}\n' \
-                   f'required number of pipettes = {required_number_of_pipettes}'
+        results.update({'required number of tubes': required_number_of_tubes,
+                        'required number of pipettes': required_number_of_pipettes})
         if verbose:
             return results
         else:
