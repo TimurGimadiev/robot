@@ -113,19 +113,19 @@ tube_storage_config = {
     # 2-nitrobenzaldehide in ACN
     49: {"smiles": "CC(=O)c1ccc(cc1)[N+]([O-])=O", "volume": 0.0015, "mols": None, "state": "liquid",
          "density": 1.02,
-         "concentration": 200e-6,  # mM
+         "concentration": 300e-6,  # mM
          "solvent": {"smiles": "CC#N"}},
     50: {"smiles": "CC(=O)c1ccc(cc1)[N+]([O-])=O", "volume": 0.0015, "mols": None, "state": "liquid",
          "density": 1.02,
-         "concentration": 200e-6,  # mM
+         "concentration": 300e-6,  # mM
          "solvent": {"smiles": "CC#N"}},
     51: {"smiles": "CC(=O)c1ccc(cc1)[N+]([O-])=O", "volume": 0.0015, "mols": None, "state": "liquid",
          "density": 1.02,
-         "concentration": 200e-6,  # mM
+         "concentration": 300e-6,  # mM
          "solvent": {"smiles": "CC#N"}},
     52: {"smiles": "CC(=O)c1ccc(cc1)[N+]([O-])=O", "volume": 0.0015, "mols": None, "state": "liquid",
          "density": 1.02,
-         "concentration": 200e-6,  # mM
+         "concentration": 300e-6,  # mM
          "solvent": {"smiles": "CC#N"}},
 
     # acetone
