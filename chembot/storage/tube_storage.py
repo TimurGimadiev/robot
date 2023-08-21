@@ -194,7 +194,7 @@ class TubeStorage(BaseStorage):
             elif mol.state is State.LIQUID and mol.pure_mass:
                 mol.mols = mol.pure_mass / mol.molecular_mass * 1000
             else:
-                raise ValueError("mols or volume and density or pure mass sjould be provided")
+                raise ValueError("mols or volume and density or pure mass should be provided")
 
         # if mols := data.get("moles"):
         #     mol.mols = mols

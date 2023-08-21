@@ -86,7 +86,7 @@ class Chembot:
         self.set_coordinates(Coordinates(x=2100, z=3270))
 
     def set_solvent_to_sampler_position(self):
-        self.set_coordinates(Coordinates(x=20, z=5300))
+        self.set_coordinates(Coordinates(x=20, z=5470))
 
     def eject_pipet(self):
         self.set_coordinates(Coordinates(x=2786, z=4660))

@@ -25,6 +25,9 @@ class LifeBotDriveMotor(Structure):
                 ("nDir", c_ubyte),
                 ("nTime", c_uint)]
 
+class LifeBotInput(Structure):
+    _fields_ = [("ananlogInputs", c_ushort * 10)]
+
 
 bot_response = {
     0: "Success",

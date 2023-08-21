@@ -15,12 +15,12 @@ extern "C"
 	enum LifeBotResult
 	{
 		LBR_Success = 0,
-		LBR_Ordered = 1, // двигатель поехал на нужную позицию
-		LBR_NotReady = 3, // Выполняется инициализация
-		LBR_InvalidData = 0x81, // Некорректные входные параметры
-		LBR_InvalidRType = 0x82, // Неверный тип запроса
-		LBR_IntercomFault = 0x83, // Ошибка связи с платой драйвера двигателя
-		LBR_NotInitialized = 0x84, // Двигатель не откалиброван
+		LBR_Ordered = 1, // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		LBR_NotReady = 3, // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		LBR_InvalidData = 0x81, // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		LBR_InvalidRType = 0x82, // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		LBR_IntercomFault = 0x83, // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		LBR_NotInitialized = 0x84, // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		LBR_DeviceError = 0xFD,
 		LBR_TransactError = 0xFE,
 		LBR_Disconnect = 0xFF,
@@ -49,17 +49,17 @@ extern "C"
 
 	enum LifeBotStepperMode
 	{
-		LBSM_Even = 0,    // обычный
-		LBSM_Smooth,      // плавный разгон/торможение
+		LBSM_Even = 0,    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		LBSM_Smooth,      // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		LBSM_SmoothAccel,
 	};
 	typedef struct LifeBotStepperPos
 	{
 		unsigned char id;
-		int iPos; // шагов от нулевого положения двигателя
-		unsigned short nSpeed; // шагов в секунду
+		int iPos; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		unsigned short nSpeed; // пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		enum LifeBotStepperMode mode;
-		unsigned short nSoftStartTime; // Время плавного разгона/торможения в миллисекундах. Поле отсутствует, если MODE = 0
+		unsigned short nSoftStartTime; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ MODE = 0
 	};
 	enum LifeBotResult LIFEBOT_API_EXPORT LB_StepperInit(unsigned char id);
 	enum LifeBotResult LIFEBOT_API_EXPORT 
@@ -110,8 +110,7 @@ extern "C"
 	enum LifeBotResult LIFEBOT_API_EXPORT 
 		LB_GetAnalogInputs(unsigned short anStates[10]);
 
-
-	enum LifeBotLedMode // светодиодов на устройстве может не быть
+	enum LifeBotLedMode // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
 	{
 		LBLM_ProgressBar,
 		LBLM_Manual,

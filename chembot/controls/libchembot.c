@@ -467,3 +467,30 @@ enum LifeBotResult LB_SetLed(enum LifeBotLedMode mode,
 	const auto r = _Transact();
 	return r;
 }
+
+enum LifeBotResult LB_GetAnalogInputs(unsigned short anStates[10])
+{
+	memset(g_abWrite, 0, sizeof(g_abWrite));
+	g_abWrite[0] = GET_ANALOG_INPUTS;
+	g_cntWrite = 1;
+
+	const auto r = _Transact();
+	if (r == LBR_Success)
+	{
+		if (anStates)
+		{
+			anStates[0] = (unsigned int)g_abRead[1] | (g_abRead[2] << 8);
+			anStates[1] = (unsigned int)g_abRead[3] | (g_abRead[4] << 8);
+			anStates[2] = (unsigned int)g_abRead[5] | (g_abRead[6] << 8);
+			anStates[3] = (unsigned int)g_abRead[7] | (g_abRead[8] << 8);
+			anStates[4] = (unsigned int)g_abRead[9] | (g_abRead[10] << 8);
+
+			anStates[5] = (unsigned int)g_abRead[11] | (g_abRead[12] << 8);
+			anStates[6] = (unsigned int)g_abRead[13] | (g_abRead[14] << 8);
+			anStates[7] = (unsigned int)g_abRead[15] | (g_abRead[16] << 8);
+			anStates[8] = (unsigned int)g_abRead[17] | (g_abRead[18] << 8);
+			anStates[9] = (unsigned int)g_abRead[19] | (g_abRead[20] << 8);
+		}
+	}
+	return r;
+}

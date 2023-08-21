@@ -127,5 +127,10 @@ class ES(Stepper):
         super().__init__(id=9, **kwargs)
 
 
+class External(Stepper):
+    def __init__(self, **kwargs):
+        super().__init__(id=13, **kwargs)
+
+
 __all__ = ["XAxis", "ZAxis", "YAxisL", "YAxisR", "Opener", "LeftPipet", "RightPipet", "WS1",
            "WS2", "ES"]

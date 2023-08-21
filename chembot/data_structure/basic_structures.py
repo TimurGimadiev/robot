@@ -39,6 +39,9 @@ bot_response = {
     255: "Disconnect",
 }
 
+class LifeBotInput(Structure):
+    _fields_ = [("ananlogInputs", c_ushort * 10)]
+
 
 class BaseDevice:
 

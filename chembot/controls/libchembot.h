@@ -66,6 +66,7 @@ enum LifeBotLedMode
 		LBLM_Manual,
 	};
 
+enum LifeBotResult LB_GetAnalogInputs(unsigned short anStates[10]);
 enum LifeBotResult LB_GetDeviceInfo(struct LifeBotDeviceInfo* lpdi);
 enum LifeBotResult LB_StepperInit(unsigned char id);
 enum LifeBotResult RB_GetDeviceInfo(struct LifeBotDeviceInfo* lpdi);
