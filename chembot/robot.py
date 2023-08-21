@@ -1,6 +1,6 @@
 from .controls.motor import CapRemover, CapRotator
 from .controls.stepper import XAxis, ZAxis, YAxisL, YAxisR, Opener, RightPipet, LeftPipet, WS1, WS2, ES
-from .controls.data_structures import Coordinates
+from .data_structure import Coordinates
 from .controls.extras import Pump, WS1Cyl, WS2Cyl, VacuumTap, UVLamp, Mixer
 from .controls.heater import Thermometer, Thermostat, Heater
 from .controls.mixing_watcher import MixWatcher

@@ -133,4 +133,4 @@ class External(Stepper):
 
 
 __all__ = ["XAxis", "ZAxis", "YAxisL", "YAxisR", "Opener", "LeftPipet", "RightPipet", "WS1",
-           "WS2", "ES"]
+           "WS2", "ES", "External"]

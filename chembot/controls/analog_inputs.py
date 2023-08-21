@@ -11,5 +11,5 @@ class Inputs(BaseDevice):
             raise ValueError("out of index")
         if not self.fake:
             self.bot_lib.LB_GetAnalogInputs(self.inputs)
-        return self.inputs[num]
+        return self.inputs.ananlogInputs[num]
 
