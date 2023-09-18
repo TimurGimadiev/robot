@@ -4,6 +4,7 @@ import numpy as np
 import json
 from ..computer_vision import predict as visual_control
 #from ..actions.synthesys import Synthesis
+from loguru import logger
 
 
 class Reactor(TubeStorage):
@@ -40,13 +41,12 @@ class Reactor(TubeStorage):
             self.anchor = Coordinates(x=int(x), z=int(z))
             self.anchor_status = True
 
-    # def fill_from_json(self, path="chembot/inputs/reactions.json", path2="chembot/inputs/data.json"):
-    #     with open(path) as reactions_file:
-    #         reactions = json.load(reactions_file)
-    #     with open(path2) as data_file:
-    #         data = json.load(data_file)
-    #         for key, value in reactions[0].items():
-    #             for data_key, data_value in data[0].items():
-    #                 reaction = smiles(value, data_value)
-    #                 do_synthesys(reaction, 1, 1, 1)
+    def fill_from_json(self, path="chembot/inputs/reactor.json"):
+        with open(path) as data_file:
+            data = json.load(data_file)
+            for k, v in data.items():
+                if v:
+                    logger.info(f"{v}")
+                    self.slot_from_mol_data(int(k), v)
+
 

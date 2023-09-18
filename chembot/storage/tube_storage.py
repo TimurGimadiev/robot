@@ -8,6 +8,7 @@ from typing import Optional, List
 from ..chemistry import smiles, Molecule
 from loguru import logger
 from ..custom_types import Slots, State
+from ..units import Volume
 
 
 
@@ -182,19 +183,40 @@ class TubeStorage(BaseStorage):
             mol.density = density
             #logger.info(f"volume = {mol.density}")
         if pure_mass := data.get("mass"):
+            logger.info(f"mass = {pure_mass}")
             mol.pure_mass = pure_mass
+        if concentration := data.get("concentration"):
+            logger.info(f"concentration = {concentration}")
+            mol.concentration = concentration
         if volume := data.get("volume"):
-            if mol.state is State.LIQUID and not mol.concentration:
-                if volume and mol.density:
-                    mol.mols = volume * mol.density / mol.molecular_mass * 1000
-                elif pure_mass and mol.density:
+            # work with liquid for now
+            if mol.state is State.LIQUID:
+                # check if there is no concentration
+                if not mol.concentration:
+                    #
+                    if volume and mol.density:
+                        mol.mols = volume * mol.density / mol.molecular_mass * 1000
+                        mol.volume = Volume(volume)
+                        mol.concentration = mol.mols / mol.volume
+                    elif pure_mass and mol.density:
+                        mol.mols = mol.pure_mass / mol.molecular_mass * 1000
+                        mol.volume = Volume(mol.pure_mass / mol.density)
+                        mol.concentration = mol.mols / mol.volume
+                    else:
+                        raise NotImplemented
+                elif mol.concentration:
+                    if volume:
+                        mol.mols = volume * mol.concentration
+                        mol.volume = Volume(volume)
+                        #mol.density = mol.pure_mass * 1000 / mol.volume
+                    else:
+                        raise NotImplemented
+                elif mol.pure_mass:
                     mol.mols = mol.pure_mass / mol.molecular_mass * 1000
-            elif mol.state is State.LIQUID and mol.concentration and volume:
-                mol.mols = volume * mol.concentration
-            elif mol.state is State.LIQUID and mol.pure_mass:
-                mol.mols = mol.pure_mass / mol.molecular_mass * 1000
+                else:
+                    raise ValueError("mols or volume and density or pure mass should be provided")
             else:
-                raise ValueError("mols or volume and density or pure mass should be provided")
+                raise NotImplemented("not implemented for solid")
 
         # if mols := data.get("moles"):
         #     mol.mols = mols
@@ -228,7 +250,7 @@ class TubeStorage(BaseStorage):
     def fill_from_json(self, path="chembot/inputs/tubes_storage.json"):
         with open(path) as tube_storage_file:
             data = json.load(tube_storage_file)
-            for k, v in data[0].items():
+            for k, v in data.items():
                 if v:
                     logger.info(f"{v}")
                     self.slot_from_mol_data(int(k), v)

@@ -4,7 +4,7 @@ from chembot.storage import Storages
 from chembot.robot import chembot
 from chembot.chemistry import substance
 from chembot import Substance
-from chython import smiles
+#from chython import smiles
 from chembot.storage import pipet_holder
 from chembot.storage import tube_storage
 from loguru import logger

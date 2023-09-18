@@ -1,144 +1,593 @@
-[
-  {
-    "9": "available",
-    "10": {
-      "concentration": null,
-      "density": 0.784,
-      "mols": null,
-      "smiles": "CC(C)=O",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
-    },
-    "13": "available",
-    "15": "available",
-    "16": {
-      "concentration": null,
-      "density": 1.0,
-      "mols": null,
-      "smiles": "O",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
-    },
-    "17": {
-      "concentration": null,
-      "density": 0.7851,
-      "mols": null,
-      "smiles": "CCO",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
-    },
-    "18": {
-      "concentration": null,
-      "density": 0.784,
-      "mols": null,
-      "smiles": "CC(C)=O",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
-    },
-    "23": {
-      "concentration": null,
-      "density": 1.62,
-      "mols": null,
-      "smiles": "OC(=O)CC(O)=O",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
-    },
-    "35": {
-      "concentration": null,
-      "density": 0.784,
-      "mols": null,
-      "smiles": "CC(C)=O",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
+{
+  "1": {
+    "smiles": "NCC(=O)O[Zn]OC(=O)CN",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
     }
   },
-  {
-    "9": "available",
-    "10": {
-      "concentration": null,
-      "density": 0.784,
-      "mols": "None",
-      "smiles": "CC(C)=O",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
-    },
-    "13": "available",
-    "15": "available",
-    "16": {
-      "concentration": null,
-      "density": 1.0,
-      "mols": null,
-      "smiles": "O",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
-    },
-    "17": {
-      "concentration": null,
-      "density": 0.7851,
-      "mols": null,
-      "smiles": "CCO",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
-    },
-    "18": {
-      "concentration": null,
-      "density": 0.784,
-      "mols": null,
-      "smiles": "CC(C)=O",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
-    },
-    "23": {
-      "concentration": null,
-      "density": 1.62,
-      "mols": null,
-      "smiles": "OC(=O)CC(O)=O",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
-    },
-    "35": {
-      "concentration": null,
-      "density": 0.784,
-      "mols": null,
-      "smiles": "CC(C)=O",
-      "solvent": {
-        "smiles": null
-      },
-      "state": "liquid",
-      "volume": 0.001
+  "9": {
+    "smiles": "NCC(=O)O[Zn]OC(=O)CN",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
     }
-  }
-]
+  },
+  "17": {
+    "smiles": "NCC(=O)O[Zn]OC(=O)CN",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "2": {
+    "smiles": "O=C(O[Zn]OC(=O)C1CCCN1)C1CCCN1",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "10": {
+    "smiles": "O=C(O[Zn]OC(=O)C1CCCN1)C1CCCN1",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "18": {
+    "smiles": "O=C(O[Zn]OC(=O)C1CCCN1)C1CCCN1",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "3": {
+    "smiles": "NC(CCC(=O)O[Zn]OC(=O)CCC(N)C(O)=O)C(O)=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "11": {
+    "smiles": "NC(CCC(=O)O[Zn]OC(=O)CCC(N)C(O)=O)C(O)=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "19": {
+    "smiles": "NC(CCC(=O)O[Zn]OC(=O)CCC(N)C(O)=O)C(O)=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "4": {
+    "smiles": "NC(CC(N)=O)C(=O)O[Zn]OC(=O)C(N)CC(N)=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "12": {
+    "smiles": "NC(CC(N)=O)C(=O)O[Zn]OC(=O)C(N)CC(N)=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "20": {
+    "smiles": "NC(CC(N)=O)C(=O)O[Zn]OC(=O)C(N)CC(N)=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "5": {
+    "smiles": "NC(CCC(N)=O)C(=O)O[Zn]OC(=O)C(N)CCC(N)=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "13": {
+    "smiles": "NC(CCC(N)=O)C(=O)O[Zn]OC(=O)C(N)CCC(N)=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "21": {
+    "smiles": "NC(CCC(N)=O)C(=O)O[Zn]OC(=O)C(N)CCC(N)=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "6": {
+    "smiles": "CCC(C)C(N)C(=O)O[Zn]OC(=O)C(N)C(C)CC",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "14": {
+    "smiles": "CCC(C)C(N)C(=O)O[Zn]OC(=O)C(N)C(C)CC",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "22": {
+    "smiles": "CCC(C)C(N)C(=O)O[Zn]OC(=O)C(N)C(C)CC",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "7": {
+    "smiles": "NC(CCCNC(N)=N)C(=O)O[Zn]OC(=O)C(N)CCCNC(N)=N",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "15": {
+    "smiles": "NC(CCCNC(N)=N)C(=O)O[Zn]OC(=O)C(N)CCCNC(N)=N",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "23": {
+    "smiles": "NC(CCCNC(N)=N)C(=O)O[Zn]OC(=O)C(N)CCCNC(N)=N",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "8": {
+    "smiles": "NC(Cc1c[nH]cn1)C(=O)O[Zn]OC(=O)C(N)Cc1c[nH]cn1",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "16": {
+    "smiles": "NC(Cc1c[nH]cn1)C(=O)O[Zn]OC(=O)C(N)Cc1c[nH]cn1",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "24": {
+    "smiles": "NC(Cc1c[nH]cn1)C(=O)O[Zn]OC(=O)C(N)Cc1c[nH]cn1",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.04,
+    "solvent": {
+      "smiles": "O"
+    }
+  },
+  "49": {
+    "smiles": "CC(=O)c1ccc(cc1)[N+]([O-])=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.3,
+    "solvent": {
+      "smiles": "CC#N"
+    }
+  },
+  "50": {
+    "smiles": "CC(=O)c1ccc(cc1)[N+]([O-])=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.3,
+    "solvent": {
+      "smiles": "CC#N"
+    }
+  },
+  "51": {
+    "smiles": "CC(=O)c1ccc(cc1)[N+]([O-])=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.3,
+    "solvent": {
+      "smiles": "CC#N"
+    }
+  },
+  "52": {
+    "smiles": "CC(=O)c1ccc(cc1)[N+]([O-])=O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": null,
+    "concentration": 0.3,
+    "solvent": {
+      "smiles": "CC#N"
+    }
+  },
+  "65": {
+    "smiles": "CC(C)=O",
+    "volume": 0.001,
+    "mols": null,
+    "state": "liquid",
+    "density": 0.784,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "66": {
+    "smiles": "CC(C)=O",
+    "volume": 0.001,
+    "mols": null,
+    "state": "liquid",
+    "density": 0.784,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "67": {
+    "smiles": "CC(C)=O",
+    "volume": 0.001,
+    "mols": null,
+    "state": "liquid",
+    "density": 0.784,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "68": {
+    "smiles": "CC(C)=O",
+    "volume": 0.001,
+    "mols": null,
+    "state": "liquid",
+    "density": 0.784,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "69": {
+    "smiles": "CC(C)=O",
+    "volume": 0.001,
+    "mols": null,
+    "state": "liquid",
+    "density": 0.784,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "70": {
+    "smiles": "CC(C)=O",
+    "volume": 0.001,
+    "mols": null,
+    "state": "liquid",
+    "density": 0.784,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "71": {
+    "smiles": "CC(C)=O",
+    "volume": 0.001,
+    "mols": null,
+    "state": "liquid",
+    "density": 0.784,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "81": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "82": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "83": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "84": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "85": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "86": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "87": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "88": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "89": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "90": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "91": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "92": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "93": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "94": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "95": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "96": {
+    "smiles": "O",
+    "volume": 0.0015,
+    "mols": null,
+    "state": "liquid",
+    "density": 1.0,
+    "concentration": null,
+    "solvent": {
+      "smiles": null
+    }
+  },
+  "53":"available",
+  "54":"available",
+  "55":"available",
+  "56":"available",
+  "57":"available",
+  "58":"available",
+  "59":"available",
+  "60":"available",
+  "61":"available",
+  "62":"available",
+  "63":"available",
+  "64":"available",
+  "72":"available",
+  "73":"available",
+  "74":"available",
+  "75":"available",
+  "76":"available",
+  "77":"available",
+  "78":"available",
+  "79":"available",
+  "80":"available",
+  "25":"available",
+  "26":"available",
+  "27":"available",
+  "28":"available",
+  "29":"available",
+  "30":"available",
+  "31":"available",
+  "32":"available",
+  "33":"available"
+}

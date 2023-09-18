@@ -127,27 +127,44 @@ class Substance(Molecule):
                 target_solvent_vol,
                 concentration)
 
+    def iterative_selection(self):
+
+        pass
+
     def solution_from_liquid_mixture(self, target_mols,
                                      target_concentration,
-                                     concentration,
-                                     min_volume=0.0001):
-        target_solution_vol = target_mols / concentration
+                                     min_volume=0.0001, final_solution_vol = None):
+
+        target_solution_vol = target_mols / self.concentration
+        logger.info(f"target_mols is {str(target_mols)} \n"
+                    f"target_solution_vol is {target_solution_vol}")
+        # if target solution volume between 90µL and 100 µL
         if (min_volume * 0.9) < target_solution_vol < min_volume:
             target_solution_vol = target_solution_vol * 10 / 9
             target_substance_vol = 9 * min_volume
             target_solvent_vol = min_volume
-            concentration = target_substance_vol * concentration / \
+            concentration = target_substance_vol * self.concentration / \
                             (target_substance_vol + target_solvent_vol)
+        # if target solution volume between 50µL and 90 µL
         elif (min_volume / 2) < target_solution_vol <= (min_volume * 0.9):
+            #raise NotImplemented("(min_volume / 2) < target_solution_vol <= (min_volume * 0.9)")
             target_solvent_vol = min_volume
             target_substance_vol = min_volume * target_solution_vol / (min_volume - target_solution_vol)
             target_solution_vol = min_volume
             concentration = target_concentration
+        # high concentration of solution or small amount needed
+        # if target solution volume less than 50µL
         elif target_solution_vol <= (min_volume / 2):
+            #raise NotImplemented("target_solution_vol <= (min_volume / 2)")
             target_substance_vol = min_volume
-            target_solution_vol = min_volume
-            target_solvent_vol = ((min_volume * concentration) / target_concentration) - min_volume
+            target_solution_vol = final_solution_vol
+            #                      mols of substance
+            target_solvent_vol = ((target_substance_vol * self.concentration) /
+            #                       new concentration    subsVol
+                                  target_concentration) - min_volume
+
             concentration = target_concentration
+        # amount of target solution volume more than 100µL
         else:
             target_substance_vol = target_solution_vol
             target_solvent_vol = 0
@@ -160,15 +177,20 @@ class Substance(Molecule):
     def prepare_solution(self, target_mols,
                          min_volume=0.0001,
                          v_max=0.001,
-                         tube_vol=0.0015):
-        target_solution_vol = min_volume
+                         tube_vol=0.0015, target_solution_vol=None):
+        # define how much solution will be used in reaction
+        target_solution_vol = target_solution_vol if target_solution_vol else min_volume
+        # volume of substance
         target_substance_vol = None
+        # volume of solvent
         target_solvent_vol = None
+        # target concentration for the final solution
         target_concentration = target_mols / target_solution_vol
         new = self.copy()
-
+        logger.info(f"started {self}")
         # pure solid compound in tube
         if self.state is State.SOLID:
+            logger.info(f"it is pure solid")
             target_substance_vol, target_solvent_vol = \
                 self.solution_from_solid(target_mols, target_concentration)
 
@@ -177,21 +199,26 @@ class Substance(Molecule):
 
         # pure liquid compound in tube
         elif (self.state is State.LIQUID) and (self.concentration is None):
+            logger.info(f"it is pure liquid")
             target_solution_vol, target_substance_vol, target_solvent_vol, new.concentration = \
                 self.solution_from_pure_liquid_substance(target_mols, target_concentration)
             new.volume = Volume(target_solvent_vol + target_substance_vol)
 
         # liquid mixture in tube
         elif (self.state is State.LIQUID) and (self.concentration is not None):
+            logger.info(f"it is mixture")
             target_solution_vol, target_substance_vol, target_solvent_vol, new.concentration = \
-                self.solution_from_liquid_mixture(target_mols, target_concentration, self.concentration)
+                self.solution_from_liquid_mixture(target_mols, target_concentration,
+                                                  final_solution_vol=target_solution_vol)
             new.volume = Volume(target_solvent_vol + target_substance_vol)
 
         if target_solution_vol > v_max:
-            print('Too much solution')
+            print(f'Too much solution, target_vol '
+                  f'{ target_substance_vol + target_solvent_vol}')
             return None
         if target_solvent_vol > v_max:
-            print('Too much solvent')
+            print('Too much solvent , target_solvent_vol '
+                  f'{ target_solvent_vol}')
             return None
 
         if (target_solvent_vol + target_substance_vol) > tube_vol:

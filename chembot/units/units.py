@@ -51,12 +51,18 @@ class Molar(CustomFloat):
     def __repr__(self):
         return f"{self.real} {self.unit}"
 
+    def __str__(self):
+        return f"{self.real} {self.unit}"
+
 
 class Volume(CustomFloat):
 
     unit = "L"
 
     def __repr__(self):
+        return f"{self.real} {self.unit}"
+
+    def __str__(self):
         return f"{self.real} {self.unit}"
 
     @property
@@ -76,14 +82,23 @@ class Mass(CustomFloat):
     def __repr__(self):
         return f"{self.real} KG"
 
+    def __str__(self):
+        return f"{self.real} {self.unit}"
+
 
 class MolarConcentration(CustomFloat):
 
     def __repr__(self):
         return f"{self.real} M/L"
 
+    def __str__(self):
+        return f"{self.real} {self.unit}"
+
 
 class Density(CustomFloat):
 
     def __repr__(self):
         return f"{self.real} KG/L"
+
+    def __str__(self):
+        return f"{self.real} {self.unit}"

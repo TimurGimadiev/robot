@@ -1,4 +1,5 @@
 # Description of pipets, their volume and mapping to steps of motor
+from loguru import logger
 class BluePipet:
 
     def __init__(self):
@@ -7,6 +8,7 @@ class BluePipet:
         self.occupied_vol = 0
 
     def volume_to_steps(self, n):
+        logger.info(f"{n}")
         if self.min_limit <= n <= self.max_limit:
             vol = round((10e8 * n + 2793 * 10e3) / 312733)
             return vol

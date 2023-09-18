@@ -5,6 +5,10 @@ from chembot.custom_types import State
 from chembot.units import *
 from copy import deepcopy, copy
 from chembot.custom_types import Slots
+from json import load
+from chembot.chemistry import smiles
+from threading import Thread
+from time import time
 
 
 class Synthesis:
@@ -14,6 +18,9 @@ class Synthesis:
         self.reactor_id = reactor_id
         self.temperature = temperature
         self.time = time
+        self.start_time = None
+        self.logs = {}
+
 
     def __repr__(self):
         return f'{self.reaction} at {self.temperature} degree, time: {self.time}'
@@ -26,26 +33,39 @@ class Synthesis:
         required_number_of_pipettes = 0
         available_number_of_pipettes = 0
         results = {}
-
-        for reactant in self.reaction.reactants:
+        target_solvent_vol = None
+        for num, reactant in enumerate(self.reaction.reactants):
             tube_id = test_tube_storage.search_molecule(reactant)
             solvent = self.reaction.solvent
             solv_id = test_tube_storage.search_molecule(solvent)
-
             if tube_id == []:
                 raise ValueError(f'{reactant} missing')
-
             for molecule_id in tube_id:
                 molecule = test_tube_storage.slots[molecule_id]
-                a = molecule.pure_mass
-                b = reactant.mols * molecule.molecular_mass
-                if (molecule.pure_mass * 1000) < (reactant.mols * molecule.molecular_mass):
+                logger.info(
+                    f"mol id {str(molecule_id)}  in stock {str(molecule.mols)} needed "
+                    f"{str(reactant.mols)}")
+                # print("hey")
+                # print(molecule.mols)
+                # print(reactant.mols)
+                # print(molecule.mols  > reactant.mols)
+                #logger.info(f'sada {molecule.mols} > {reactant.mols}')
+                if molecule.mols < reactant.mols:
                     if molecule_id == tube_id[-1]:
-                        raise ValueError(f'Not enough {reactant} in storage')
+                        logger.info(f"Not enough in storage needed {str(reactant.mols)}")
+                        raise ValueError
                     continue
 
-                target_solution_vol, target_substance_vol, target_solvent_vol, target_concentration = \
-                    molecule.prepare_solution(reactant.mols)
+                for solution_vol in range(10):
+                    try:
+                        target_solution_vol, target_substance_vol, target_solvent_vol, target_concentration = \
+                        molecule.prepare_solution(reactant.mols, target_solution_vol=0.1 + 0.1
+                                                  * solution_vol)
+                    except TypeError:
+                        continue
+                    break
+                if not target_solution_vol:
+                    raise ValueError(f"target_solution_vol not calculated")
 
                 if target_solvent_vol > 0:
                     if solv_id == []:
@@ -53,6 +73,9 @@ class Synthesis:
 
                     for solvent_id in solv_id:
                         solvent = test_tube_storage.slots[solvent_id]
+                        logger.info(
+                            f"mol id {str(solvent_id)}  in stock {str(solvent.volume)} needed "
+                            f"{str(target_solvent_vol)}")
                         if target_solvent_vol > solvent.volume:
                             if solvent_id == solv_id[-1]:
                                 raise ValueError(f'Not enough {solvent} in storage')
@@ -61,12 +84,10 @@ class Synthesis:
                         required_number_of_tubes += 1
                         required_number_of_pipettes += 1
                     required_number_of_pipettes += 1
-                results.update(
-                    {'reactant': reactant,
+                results[f"reactant_{num}"] = {'reactant': reactant,
                      'target_solution_vol': Volume(target_solution_vol),
                      'target_substance_vol': Volume(target_substance_vol),
                      'target_solvent_vol': Volume(target_solvent_vol)}
-                )
 
                 break
 
@@ -78,29 +99,28 @@ class Synthesis:
             raise ValueError('Not enough tubes')
 
         if self.reaction.reagents != ():
-            for reagent in self.reaction.reagents:
+            for num, reagent in enumerate(self.reaction.reagents):
                 tube_id = chembot.storages.tube_storage.search_molecule(reagent)
                 if tube_id == []:
                     raise ValueError(f'{reagent} missing')
                 for reagent_id in tube_id:
-                    reagent = chembot.storages.tube_storage.slots[reagent_id]
-                    if (reagent.pure_mass * 1000) < (reagent.mols * molecule.molecular_mass):
+                    molecule = test_tube_storage.slots[reagent_id]
+                    if molecule.mols < reagent.mols:
                         if reagent_id == tube_id[-1]:
                             raise ValueError(f'Not enough {reagent} in storage')
                         continue
 
                     reagent_solution_vol, reagent_substance_vol, reagent_solvent_vol, reagent_concentration = \
-                        reagent.prepare_solution(reagent.mols)
+                        molecule.prepare_solution(reagent.mols)
                     logger.info(f'reagent_solution_vol: {reagent_solution_vol}\n'
                                 f'reagent_substance_vol: {reagent_substance_vol}\n'
                                 f'reagent_solvent_vol: {reagent_solvent_vol}\n'
                                 f'reagent_concentration: {reagent_concentration}')
-                    results.update(
-                        {'reagent_solution_vol': Volume(reagent_solution_vol),
+                    results[f"reagent_{num}"] = {'reagent_solution_vol': Volume(
+                        reagent_solution_vol),
                          'reagent_substance_vol': Volume(reagent_substance_vol),
                          'reagent_solvent_vol': Volume(reagent_solvent_vol),
                          'reagent_concentration': MolarConcentration(reagent_concentration)}
-                    )
                     break
                 required_number_of_pipettes += 1
 
@@ -164,82 +184,211 @@ class Synthesis:
 
         return molecule_id, pipet, new
 
+    def molecule_search_and_calc(self, molecule, chembot_local=chembot):
+        tube_id = chembot_local.storages.tube_storage.search_molecule(molecule)
+        solvent = self.reaction.solvent
+        solv_id = chembot_local.storages.tube_storage.search_molecule(solvent)
+        if tube_id == []:
+            raise ValueError(f'{molecule} missing')
+        pipet = None
+        for molecule_id in tube_id:
+            # searching molecule in storage
+            molecule = chembot_local.storages.tube_storage.slots[molecule_id]
+            if (molecule.pure_mass * 1000) < (molecule.mols * molecule.molecular_mass):
+                if molecule_id == tube_id[-1]:
+                    raise ValueError(f'Not enough {molecule} in storage')
+                continue
+
+            target_solution_vol, target_substance_vol, target_solvent_vol, target_concentration = \
+                molecule.prepare_solution(molecule.mols)
+            # logger.info(target_solution_vol, target_substance_vol, target_solvent_vol)
+
+            if target_solvent_vol > 0:
+                if solv_id == []:
+                    raise ValueError('solvent missing')
+
+                for solvent_id in solv_id:
+                    solvent = chembot_local.storages.tube_storage.slots[solvent_id]
+                    if target_solvent_vol > solvent.volume:
+                        if solvent_id == solv_id[-1]:
+                            raise ValueError(f'Not enough {solvent} in storage')
+                        continue
+
+            return target_solution_vol, target_substance_vol, target_solvent_vol, \
+                   target_concentration, solvent_id
+
+
+    def prepare_molecule_for_reaction(self, molecule):
+        tube_id = chembot.storages.tube_storage.search_molecule(molecule)
+        solvent = self.reaction.solvent
+        solv_id = chembot.storages.tube_storage.search_molecule(solvent)
+        if tube_id == []:
+            raise ValueError(f'{molecule} missing')
+        pipet = None
+        for molecule_id in tube_id:
+            # searching molecule in storage
+            molecule = chembot.storages.tube_storage.slots[molecule_id]
+            if (molecule.pure_mass * 1000) < (molecule.mols * molecule.molecular_mass):
+                if molecule_id == tube_id[-1]:
+                    raise ValueError(f'Not enough {molecule} in storage')
+                continue
+
+            target_solution_vol, target_substance_vol, target_solvent_vol, target_concentration = \
+                molecule.prepare_solution(molecule.mols)
+            # logger.info(target_solution_vol, target_substance_vol, target_solvent_vol)
+
+            if target_solvent_vol > 0:
+                if solv_id == []:
+                    raise ValueError('solvent missing')
+
+                for solvent_id in solv_id:
+                    solvent = chembot.storages.tube_storage.slots[solvent_id]
+                    if target_solvent_vol > solvent.volume:
+                        if solvent_id == solv_id[-1]:
+                            raise ValueError(f'Not enough {solvent} in storage')
+                        continue
+
+                    molecule_id, pipet, new = self.substance_solution(molecule_id,
+                                                                      solvent_id,
+                                                                      target_substance_vol,
+                                                                      target_solvent_vol,
+                                                                      target_concentration)
+            # actual actions
+            if not pipet:
+                _, pipet = chembot.storages.pipet_holder.next_pipet()
+            chembot.storages.tube_storage.left_pipet_get(molecule_id,
+                                                         (target_solution_vol * 1000),
+                                                         pipet=pipet)
+            chembot.stop_mix()
+            if not chembot.storages.reactor.anchor_status:
+                chembot.storages.reactor.anchor_correct()
+            chembot.storages.reactor.left_pipet_put_and_mix(self.reactor_id,
+                                                            (target_solution_vol * 1000),
+                                                            pipet=pipet)
+            # chembot.storages.reactor.left_pipet_put_till_end(reactor_id,
+            #                                                 (target_solution_vol * 1000),
+            #                                                 pipet=pipet)
+
+            logger.info(f'reactant is ready {molecule}')
+            break
+
     def do_synthesys(self):
-        if not chembot.storages.reactor.anchor_status:
-            chembot.storages.reactor.anchor_correct()
+        self.logs.update(self.test(verbose=True))
+        # prepare reactants
         for reactant in self.reaction.reactants:
-            tube_id = chembot.storages.tube_storage.search_molecule(reactant)
-            solvent = reactant.solvent
-            solv_id = chembot.storages.tube_storage.search_molecule(solvent)
-            if tube_id == []:
-                raise ValueError(f'{reactant} missing')
-
-            for molecule_id in tube_id:
-                molecule = chembot.storages.tube_storage.slots[molecule_id]
-                if (molecule.pure_mass * 1000) < (reactant.mols * molecule.molecular_mass):
-                    if molecule_id == tube_id[-1]:
-                        raise ValueError(f'Not enough {reactant} in storage')
-                    continue
-
-                target_solution_vol, target_substance_vol, target_solvent_vol, target_concentration = \
-                    molecule.prepare_solution(reactant.mols)
-                # logger.info(target_solution_vol, target_substance_vol, target_solvent_vol)
-
-                if target_solvent_vol > 0:
-                    if solv_id == []:
-                        raise ValueError('solvent missing')
-
-                    for solvent_id in solv_id:
-                        solvent = chembot.storages.tube_storage.slots[solvent_id]
-                        if target_solvent_vol > solvent.volume:
-                            if solvent_id == solv_id[-1]:
-                                raise ValueError(f'Not enough {solvent} in storage')
-                            continue
-
-                        molecule_id, pipet, new = self.substance_solution(molecule_id,
-                                                                          solvent_id,
-                                                                          target_substance_vol,
-                                                                          target_solvent_vol,
-                                                                          target_concentration)
-
-                # _, pipet = chembot.storages.pipet_holder.next_pipet()
-                chembot.storages.tube_storage.left_pipet_get(molecule_id,
-                                                             (target_solution_vol * 1000),
-                                                             pipet=pipet)
-
-                if not chembot.storages.reactor.anchor_status:
-                    chembot.storages.reactor.anchor_correct()
-                chembot.storages.reactor.left_pipet_put_and_mix(self.reactor_id,
-                                                                (target_solution_vol * 1000),
-                                                                pipet=pipet)
-                # chembot.storages.reactor.left_pipet_put_till_end(reactor_id,
-                #                                                 (target_solution_vol * 1000),
-                #                                                 pipet=pipet)
-
-                logger.info(f'{reactant} is ready')
-                break
-
+            self.prepare_molecule_for_reaction(reactant)
+            # tube_id = chembot.storages.tube_storage.search_molecule(reactant)
+            # solvent = self.reaction.solvent
+            # solv_id = chembot.storages.tube_storage.search_molecule(solvent)
+            # if tube_id == []:
+            #     raise ValueError(f'{reactant} missing')
+            # pipet = None
+            # for molecule_id in tube_id:
+            #     molecule = chembot.storages.tube_storage.slots[molecule_id]
+            #     if (molecule.pure_mass * 1000) < (reactant.mols * molecule.molecular_mass):
+            #         if molecule_id == tube_id[-1]:
+            #             raise ValueError(f'Not enough {reactant} in storage')
+            #         continue
+            #
+            #     target_solution_vol, target_substance_vol, target_solvent_vol, target_concentration = \
+            #         molecule.prepare_solution(reactant.mols)
+            #     # logger.info(target_solution_vol, target_substance_vol, target_solvent_vol)
+            #
+            #     if target_solvent_vol > 0:
+            #         if solv_id == []:
+            #             raise ValueError('solvent missing')
+            #
+            #         for solvent_id in solv_id:
+            #             solvent = chembot.storages.tube_storage.slots[solvent_id]
+            #             if target_solvent_vol > solvent.volume:
+            #                 if solvent_id == solv_id[-1]:
+            #                     raise ValueError(f'Not enough {solvent} in storage')
+            #                 continue
+            #
+            #             molecule_id, pipet, new = self.substance_solution(molecule_id,
+            #                                                               solvent_id,
+            #                                                               target_substance_vol,
+            #                                                               target_solvent_vol,
+            #                                                               target_concentration)
+            #     if not pipet:
+            #          _, pipet = chembot.storages.pipet_holder.next_pipet()
+            #     chembot.storages.tube_storage.left_pipet_get(molecule_id,
+            #                                                  (target_solution_vol * 1000),
+            #                                                  pipet=pipet)
+            #     chembot.stop_mix()
+            #     if not chembot.storages.reactor.anchor_status:
+            #         chembot.storages.reactor.anchor_correct()
+            #     chembot.storages.reactor.left_pipet_put_and_mix(self.reactor_id,
+            #                                                     (target_solution_vol * 1000),
+            #                                                     pipet=pipet)
+            #     # chembot.storages.reactor.left_pipet_put_till_end(reactor_id,
+            #     #                                                 (target_solution_vol * 1000),
+            #     #                                                 pipet=pipet)
+            #
+            #     logger.info(f'reactant is ready {reactant}')
+            #     break
+        # prepare reagents
         if self.reaction.reagents != ():
             for reagent in self.reaction.reagents:
-                tube_id = chembot.storages.tube_storage.search_molecule(reagent)
-                if tube_id == []:
-                    raise ValueError(f'{reagent} missing')
-                for molecule_id in tube_id:
-                    molecule = chembot.storages.tube_storage.slots[molecule_id]
-                    _, pipet = chembot.storages.pipet_holder.next_pipet()
-                    chembot.storages.tube_storage.left_pipet_get(molecule_id,
-                                                                 0.1,
-                                                                 pipet=pipet)
-                    molecule.volume -= 0.1
-
-                    if not chembot.storages.reactor.anchor_status:
-                        chembot.storages.reactor.anchor_correct()
-                    chembot.storages.reactor.left_pipet_put_and_mix(self.reactor_id,
-                                                                    0.1,
-                                                                    pipet=pipet)
-                    logger.info(f'{reagent} is ready')
-                    break
-
-        logger.info(f'reaction {self.reaction} is ready to start')
+                self.prepare_molecule_for_reaction(reagent)
+                # tube_id = chembot.storages.tube_storage.search_molecule(reagent)
+                # if tube_id == []:
+                #     raise ValueError(f'{reagent} missing')
+                # for molecule_id in tube_id:
+                #     molecule = chembot.storages.tube_storage.slots[molecule_id]
+                #     _, pipet = chembot.storages.pipet_holder.next_pipet()
+                #     molecule.
+                #     chembot.storages.tube_storage.left_pipet_get(molecule_id,
+                #                                                  0.1,
+                #                                                  pipet=pipet)
+                #     molecule.volume -= 0.1
+                #     chembot.stop_mix()
+                #     if not chembot.storages.reactor.anchor_status:
+                #         chembot.storages.reactor.anchor_correct()
+                #     chembot.storages.reactor.left_pipet_put_and_mix(self.reactor_id,
+                #                                                     0.1,
+                #                                                     pipet=pipet)
+                #     logger.info(f'ragent is ready {reagent}' )
+                #     break
+        logger.info(f'reaction is started at {self.start_time} {self.reaction} ')
         # reaction.meta.update({"temperature": 40, "time": 50})
+        # fix start time
+        self.start_time = time()
+        # start mixing
+        chembot.mix()
         return None
+
+
+#def prepeare_synthesis():
+
+
+def synthesys_queue_from_json(path="chembot/inputs/reactions.json", canonicalize=True):
+    synthesys_queue = []
+    with open(path) as reactions_config_file:
+        data = load(reactions_config_file)
+        #reactor_id = chembot.storages.reactor.next_avilable_slot
+        #if not reactor_id:
+        #    raise ValueError("not enough tubes for reactions")
+        for reaction, reactor_id in zip(data, chembot.storages.reactor.avilable_slots):
+            logger.info(f"started to process {reaction['reaction']}")
+            temperature = reaction["temperature"] if reaction.get("temperature") else 20
+            time = reaction["time"] if reaction.get("time") else 600
+            temp_reaction = smiles(reaction["reaction"], data=reaction)
+            if canonicalize:
+                temp_reaction.canonicalize()
+            synthesys = Synthesis(reaction=temp_reaction,
+                                  reactor_id=reactor_id, temperature=temperature, time=time)
+            synthesys_queue.append(synthesys)
+        if len(data) != len(synthesys_queue):
+            logger.info(f"Not all the reactions were enqueued because of available space in "
+                        f"reactor; \n"
+                        f"{len(data)} reactions in config file and "
+                        f"{len(synthesys_queue)} reactioins in resulted queue")
+
+    return synthesys_queue
+
+
+
+
+
+

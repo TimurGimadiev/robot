@@ -1,6 +1,90 @@
 [
   {
-    "1": "OC(=O)CC(O)=O.CCO>>CCOC(=O)CC(=O)OCC",
-    "2": "CC(C)=O.CC(=O)C1=CC=C(C=C1)[N+]([O-])=O>>CC(=O)CC(O)C1=CC=C(C=C1)[N+]([O-])=O"
+    "num": 1,
+    "reaction": "CC(=O)C1=CC=C(C=C1)[N+]([O-])=O.CC(C)=O>NCC(=O)O[Zn]OC(=O)CN>CC(=O)CC(O)C1=CC=C(C=C1)[N+]([O-])=O",
+    "stoichiometry": {"reactants": {"1": 1.0, "2": 1.5}, "products": {"1": 1.0}, "reagents": {
+            "1": 0.05}},
+    "target": {"product": false, "idx": 1, "mols": 67e-6,"mass": null},
+    "states": {"reactants": {"1": "liquid", "2": "liquid"}, "products": {"1": null},
+                   "reagents": {"1": "liquid"}},
+    "density": {"reactants": {"1": 0.78, "2": 0.784}, "reagents": {"1": 1.0}},
+    "solvent": {"density": 1.0, "smiles": "O"}
+  },
+  {
+    "num": 2,
+    "reaction": "CC(=O)C1=CC=C(C=C1)[N+]([O-])=O.CC(C)=O>O=C(O[Zn]OC(=O)C1CCCN1)C1CCCN1>CC(=O)CC(O)C1=CC=C(C=C1)[N+]([O-])=O",
+    "stoichiometry": {"reactants": {"1": 1.0, "2": 1.5}, "products": {"1": 1.0}, "reagents": {
+            "1": 0.05}},
+    "target": {"product": false, "idx": 1, "mols": 0.001, "mass": null},
+    "states": {"reactants": {"1": "liquid", "2": "liquid"}, "products": {"1": null},
+                   "reagents": {"1": "liquid"}},
+    "density": {"reactants": {"1": 0.78, "2": 0.784}, "reagents": {"1": 1.0}},
+    "solvent": {"density": 1.0, "smiles": "O"}
+  },
+  {
+    "num": 3,
+    "reaction": "CC(=O)C1=CC=C(C=C1)[N+]([O-])=O.CC(C)=O>NC(CCC(=O)O[Zn]OC(=O)CCC(N)C(O)=O)C(O)=O>CC(=O)CC(O)C1=CC=C(C=C1)[N+]([O-])=O",
+    "stoichiometry": {"reactants": {"1": 1.0, "2": 1.5}, "products": {"1": 1.0}, "reagents": {
+            "1": 0.05}},
+    "target": {"product": false, "idx": 1, "mols": 0.001, "mass": null},
+    "states": {"reactants": {"1": "liquid", "2": "liquid"}, "products": {"1": null},
+                   "reagents": {"1": "liquid"}},
+    "density": {"reactants": {"1": 0.78, "2": 0.784}, "reagents": {"1": 1.0}},
+    "solvent": {"density": 1.0, "smiles": "O"}
+  },
+  {
+    "num": 4,
+    "reaction": "CC(=O)C1=CC=C(C=C1)[N+]([O-])=O.CC(C)=O>NC(CC(N)=O)C(=O)O[Zn]OC(=O)C(N)CC(N)=O>CC(=O)CC(O)C1=CC=C(C=C1)[N+]([O-])=O",
+    "stoichiometry": {"reactants": {"1": 1.0, "2": 1.5}, "products": {"1": 1.0}, "reagents": {
+            "1": 0.05}},
+    "target": {"product": false, "idx": 1, "mols": 0.001, "mass": null},
+    "states": {"reactants": {"1": "liquid", "2": "liquid"}, "products": {"1": null},
+                   "reagents": {"1": "liquid"}},
+    "density": {"reactants": {"1": 0.78, "2": 0.784}, "reagents": {"1": 1.0}},
+    "solvent": {"density": 1.0, "smiles": "O"}
+  },
+  {
+    "num": 5,
+    "reaction": "CC(=O)C1=CC=C(C=C1)[N+]([O-])=O.CC(C)=O>NC(CCC(N)=O)C(=O)O[Zn]OC(=O)C(N)CCC(N)=O>CC(=O)CC(O)C1=CC=C(C=C1)[N+]([O-])=O",
+    "stoichiometry": {"reactants": {"1": 1.0, "2": 1.5}, "products": {"1": 1.0}, "reagents": {
+            "1": 0.05}},
+    "target": {"product": false, "idx": 1, "mols": 0.001, "mass": null},
+    "states": {"reactants": {"1": "liquid", "2": "liquid"}, "products": {"1": null},
+                   "reagents": {"1": "liquid"}},
+    "density": {"reactants": {"1": 0.78, "2": 0.784}, "reagents": {"1": 1.0}},
+    "solvent": {"density": 1.0, "smiles": "O"}
+  },
+  {
+    "num": 6,
+    "reaction": "CC(=O)C1=CC=C(C=C1)[N+]([O-])=O.CC(C)=O>CCC(C)C(N)C(=O)O[Zn]OC(=O)C(N)C(C)CC>CC(=O)CC(O)C1=CC=C(C=C1)[N+]([O-])=O",
+    "stoichiometry": {"reactants": {"1": 1.0, "2": 1.5}, "products": {"1": 1.0}, "reagents": {
+            "1": 0.05}},
+    "target": {"product": false, "idx": 1, "mols": 0.001, "mass": null},
+    "states": {"reactants": {"1": "liquid", "2": "liquid"}, "products": {"1": null},
+                   "reagents": {"1": "liquid"}},
+    "density": {"reactants": {"1": 0.78, "2": 0.784}, "reagents": {"1": 1.0}},
+    "solvent": {"density": 1.0, "smiles": "O"}
+  },
+  {
+    "num": 7,
+    "reaction": "CC(=O)C1=CC=C(C=C1)[N+]([O-])=O.CC(C)=O>NC(CCCNC(N)=N)C(=O)O[Zn]OC(=O)C(N)CCCNC(N)=N>CC(=O)CC(O)C1=CC=C(C=C1)[N+]([O-])=O",
+    "stoichiometry": {"reactants": {"1": 1.0, "2": 1.5}, "products": {"1": 1.0}, "reagents": {
+            "1": 0.05}},
+    "target": {"product": false, "idx": 1, "mols": 0.001, "mass": null},
+    "states": {"reactants": {"1": "liquid", "2": "liquid"}, "products": {"1": null},
+                   "reagents": {"1": "liquid"}},
+    "density": {"reactants": {"1": 0.78, "2": 0.784}, "reagents": {"1": 1.0}},
+    "solvent": {"density": 1.0, "smiles": "O"}
+  },
+  {
+    "num": 8,
+    "reaction": "CC(=O)C1=CC=C(C=C1)[N+]([O-])=O.CC(C)=O>NC(Cc1c[nH]cn1)C(=O)O[Zn]OC(=O)C(N)Cc1c[nH]cn1>CC(=O)CC(O)C1=CC=C(C=C1)[N+]([O-])=O",
+    "stoichiometry": {"reactants": {"1": 1.0, "2": 1.5}, "products": {"1": 1.0}, "reagents": {
+            "1": 0.05}},
+    "target": {"product": false, "idx": 1, "mols": 0.001, "mass": null},
+    "states": {"reactants": {"1": "liquid", "2": "liquid"}, "products": {"1": null},
+                   "reagents": {"1": "liquid"}},
+    "density": {"reactants": {"1": 0.78, "2": 0.784}, "reagents": {"1": 1.0}},
+    "solvent": {"density": 1.0, "smiles": "O"}
   }
 ]

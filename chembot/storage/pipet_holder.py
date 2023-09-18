@@ -59,10 +59,10 @@ class PipetHolder(BaseStorage):
             if v == "blue_pipet":
                 self.fill_slot(k, BluePipet())
 
-    def fill_from_json(self, path="chembot/inputs/pipets.json"):
+    def fill_from_json(self, path="chembot/inputs/pipet_storage.json"):
         with open(path) as pipet_storage_file:
             data = json.load(pipet_storage_file)
-            for k, v in data[0].items():
+            for k, v in data.items():
                 if v == "blue_pipet":
                     self.fill_slot(int(k), BluePipet())
 

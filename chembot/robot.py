@@ -101,6 +101,14 @@ class Chembot:
         self.storages.pipet_holder.fill_from_config(pipet_storage)
         self.storages.reactor.fill_from_config(reactor)
 
+    def fill_from_json(self,tube_storage="chembot/inputs/tubes_storage.json",
+                       reactor="chembot/inputs/reactor.json",
+                       pipet_storage="chembot/inputs/pipet_storage.json",
+                       big_storage="chembot/inputs/pipet_storage.json"):
+        self.storages.tube_storage.fill_from_json(tube_storage)
+        self.storages.pipet_holder.fill_from_json(pipet_storage)
+        self.storages.reactor.fill_from_json(reactor)
+
 
 # class Robot:
 #     def __init__(self, fake=False):
@@ -111,7 +119,7 @@ class Chembot:
 try:
     chembot = Chembot()
 except:
-    logger.info("control libraries are not available fake chemot initialized")
+    logger.info("control libraries are not available fake chembot initialized")
     chembot = Chembot(fake=True)
 
-chembot.fill_from_config()
+#chembot.fill_from_config()
